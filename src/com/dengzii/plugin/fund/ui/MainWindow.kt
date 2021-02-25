@@ -22,7 +22,11 @@ class MainWindow : MainWindowForm(), ToolWindowFactory {
     override fun init(toolWindow: ToolWindow) {
         println("MainWindow.init")
 
-        val columnInfo = ColumnInfo.of("代码", "估算净值", "涨跌幅", "更新时间")
+        val columnInfo = ColumnInfo.of("估算净值", "涨跌幅", "更新时间").toMutableList()
+        columnInfo.add(0, ColumnFundCode {
+
+        })
+
         val adapter = TableAdapter(fundData, columnInfo)
         adapter.setup(tableFund)
         tableFund.rowHeight = 40
@@ -37,18 +41,18 @@ class MainWindow : MainWindowForm(), ToolWindowFactory {
         adapter.fireTableStructureChanged()
 
         val p = ToolbarDecorator.createDecorator(tableFund)
-            .addExtraActions(object : AnActionButton("--", AllIcons.Actions.Refresh) {
-                override fun actionPerformed(p0: AnActionEvent) {
+                .addExtraActions(object : AnActionButton("--", AllIcons.Actions.Refresh) {
+                    override fun actionPerformed(p0: AnActionEvent) {
 
-                }
-            })
-            .addExtraActions(object : AnActionButton("--", AllIcons.Actions.StopRefresh) {
-                override fun actionPerformed(p0: AnActionEvent) {
+                    }
+                })
+                .addExtraActions(object : AnActionButton("--", AllIcons.Actions.StopRefresh) {
+                    override fun actionPerformed(p0: AnActionEvent) {
 
-                }
-            })
-            .setToolbarPosition(ActionToolbarPosition.TOP)
-            .createPanel()
+                    }
+                })
+                .setToolbarPosition(ActionToolbarPosition.TOP)
+                .createPanel()
 
         contentPanel.add(p, BorderLayout.CENTER)
     }
