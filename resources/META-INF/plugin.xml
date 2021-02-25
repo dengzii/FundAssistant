@@ -1,0 +1,37 @@
+<idea-plugin>
+    <id>com.dengzii.plugin.fund</id>
+    <name>Fund Assistant</name>
+    <version>1.0</version>
+    <vendor email="dengzii@foxmail.com" url="https://github.com/dengzii">dengzi</vendor>
+
+    <description><![CDATA[
+      基金/股票助手.<br>
+      所有该有的功能都有。
+      <em>most HTMLe tags may be used</em>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Add change notesq here.<br>
+      <em>most HTMLq tags may be used</em>
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="173.0"/>
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow
+                factoryClass="com.dengzii.plugin.fund.ui.MainWindow"
+                id="FundAssistant"
+                anchor="right"
+                canCloseContents="false"
+                doNotActivateOnStart="false"
+                order="last"
+                icon="PluginIcons.PluginIcon"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>
