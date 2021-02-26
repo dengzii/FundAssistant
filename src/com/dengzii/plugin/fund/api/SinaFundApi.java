@@ -10,4 +10,9 @@ public class SinaFundApi implements FundApi {
     public List<FundBean> getFundList() {
         return Collections.emptyList();
     }
+
+    @Override
+    public List<FundBean> searchFund(String keywords) {
+        return null;
+    }
 }

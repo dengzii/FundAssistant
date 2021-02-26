@@ -10,4 +10,9 @@ public class TianTianFundApi implements FundApi{
     public List<FundBean> getFundList() {
         return null;
     }
+
+    @Override
+    public List<FundBean> searchFund(String keywords) {
+        return null;
+    }
 }

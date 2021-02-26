@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface FundApi {
     List<FundBean> getFundList();
+
+    List<FundBean> searchFund(String keywords);
 }
