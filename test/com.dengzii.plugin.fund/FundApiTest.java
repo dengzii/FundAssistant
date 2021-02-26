@@ -1,7 +1,6 @@
 package com.dengzii.plugin.fund;
 
-import com.dengzii.plugin.fund.api.FundApi;
-import com.dengzii.plugin.fund.api.SinaFundApi;
+import com.dengzii.plugin.fund.api.*;
 import com.dengzii.plugin.fund.api.bean.FundBean;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,6 +19,18 @@ public class FundApiTest {
         Assert.assertNotEquals(funds.size(), 0);
     }
 
+    @Test
+    public void singApiSubscribeTest() {
+
+        AbstractTask<List<FundBean>> task = new FundTask(new SinaFundApi());
+        task.subscribe(new UpdateSubscriber<List<FundBean>>() {
+            @Override
+            public void onUpdate(List<FundBean> result) {
+                Assert.assertNotNull(result);
+            }
+        });
+        task.start();
+    }
     @Test
     public void tianTianApiTest() {
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public abstract class AbstractUpdateTask<T> implements UpdateTask<T>, UpdateSubScribeSource<T> {
+public abstract class AbstractTask<T> implements UpdateTask<T>, UpdateSubScribeSource<T> {
 
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final List<UpdateSubscriber<T>> subscribers = new ArrayList<>();
