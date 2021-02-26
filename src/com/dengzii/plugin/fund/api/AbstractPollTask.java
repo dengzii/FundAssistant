@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public abstract class AbstractPollTask<T> implements PollTask<T>, UpdateSubScribeSource<T> {
+public abstract class AbstractPollTask<T> implements PollTask, UpdateSubScribeSource<T> {
 
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final List<UpdateSubscriber<T>> subscribers = new ArrayList<>();
@@ -25,6 +25,11 @@ public abstract class AbstractPollTask<T> implements PollTask<T>, UpdateSubScrib
                 }
             }
         });
+    }
+
+    @Override
+    public void stop() {
+        // TODO: 2021/2/26 停止轮询
     }
 
     @Override

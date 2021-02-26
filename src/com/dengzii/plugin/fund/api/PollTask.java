@@ -1,5 +1,6 @@
 package com.dengzii.plugin.fund.api;
 
-public interface PollTask<T> {
+public interface PollTask {
     void start();
+    void stop();
 }
