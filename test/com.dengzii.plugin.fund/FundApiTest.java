@@ -2,9 +2,11 @@ package com.dengzii.plugin.fund;
 
 import com.dengzii.plugin.fund.api.*;
 import com.dengzii.plugin.fund.api.bean.FundBean;
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.net.http.HttpClient;
 import java.util.List;
 
 

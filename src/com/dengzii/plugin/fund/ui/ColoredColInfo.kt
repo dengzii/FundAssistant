@@ -7,10 +7,22 @@ import java.awt.Color
 import java.awt.Component
 import java.awt.event.MouseEvent
 
-class ColumnFundCode(
-        private val name: String = "Fund Code",
-        private val onCellClick: (MouseEvent?) -> Unit
+class ColoredColInfo(
+    private val name: String
 ) : ColumnInfo<Any>(name, true) {
+
+    companion object {
+        private val colorRed by lazy {
+            val hsb = FloatArray(3)
+            Color.RGBtoHSB(230, 120, 120, hsb)
+            Color.getHSBColor(hsb[0], hsb[1], hsb[2])
+        }
+        private val colorGreen by lazy {
+            val hsb = FloatArray(3)
+            Color.RGBtoHSB(120, 230, 120, hsb)
+            Color.getHSBColor(hsb[0], hsb[1], hsb[2])
+        }
+    }
 
     override val columnClass = String::class.java
 
@@ -23,11 +35,10 @@ class ColumnFundCode(
     }
 
     private fun getComponent(text: String): Component {
+        val s1 = text.replace("%", "").replace(",", "").toDouble()
+        val color = if (s1 > 0) colorRed else colorGreen
         return JBLabel(text).apply {
-            val hsb = FloatArray(3)
-            Color.RGBtoHSB(62, 143, 94, hsb)
-            foreground = Color.getHSBColor(hsb[0], hsb[1], hsb[2])
-            onClick(onCellClick)
+            foreground = color
         }
     }
 }

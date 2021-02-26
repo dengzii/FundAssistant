@@ -21,9 +21,9 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow
-                factoryClass="com.dengzii.plugin.fund.ui.MainWindow"
+                factoryClass="com.dengzii.plugin.fund.ui.MainToolWindowFactory"
                 id="FundAssistant"
-                anchor="right"
+                anchor="bottom"
                 canCloseContents="false"
                 doNotActivateOnStart="false"
                 order="last"

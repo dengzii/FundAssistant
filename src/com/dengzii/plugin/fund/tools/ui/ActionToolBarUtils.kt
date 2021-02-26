@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.impl.ActionButton
 import com.intellij.openapi.actionSystem.impl.PresentationFactory
+import com.intellij.ui.AnActionButton
 import com.intellij.util.ui.JBUI
 import java.awt.Dimension
 import java.awt.FlowLayout
@@ -35,10 +36,20 @@ object ActionToolBarUtils {
         return panel
     }
 
-    class Action(var icon: Icon,
-                 var isEnabled: Boolean = true,
-                 var desc: String = "",
-                 var action: () -> Unit) : AnAction() {
+    fun createActionButton(hint: String, icon: Icon, block: (AnActionEvent) -> Unit): AnActionButton {
+        return object : AnActionButton(hint, icon) {
+            override fun actionPerformed(p0: AnActionEvent) {
+                block.invoke(p0)
+            }
+        }
+    }
+
+    class Action(
+        var icon: Icon,
+        var isEnabled: Boolean = true,
+        var desc: String = "",
+        var action: () -> Unit
+    ) : AnAction() {
 
         override fun actionPerformed(p0: AnActionEvent) {
             action.invoke()

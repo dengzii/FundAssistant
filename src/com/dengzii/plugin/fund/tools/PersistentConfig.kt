@@ -23,10 +23,10 @@ import kotlin.reflect.KProperty
  * @author https://github.com/dengzii
  */
 open class PersistentConfig(
-        propertiesComp: PropertiesComponent? = null,
-        project: Project? = null,
-        private val keySuffix: String = "KEY",
-        private val objectSerializer: ObjectSerializer = JsonObjectSerializer()
+    propertiesComp: PropertiesComponent? = null,
+    project: Project? = null,
+    private val keySuffix: String = "KEY",
+    private val objectSerializer: ObjectSerializer = JsonObjectSerializer()
 ) {
 
     private val propertiesComponent: PropertiesComponent = propertiesComp ?: if (project == null) {
@@ -70,9 +70,9 @@ open class PersistentConfig(
     class JsonObjectSerializer : ObjectSerializer {
 
         private val gson: Gson = Gson().newBuilder()
-                .setLenient()
-                .serializeNulls()
-                .create()
+            .setLenient()
+            .serializeNulls()
+            .create()
 
         @Throws(JsonParseException::class)
         override fun serialize(obj: Any, clazz: KClass<*>): String {
@@ -97,9 +97,9 @@ open class PersistentConfig(
      */
     inner class PropertyDelegate<T : Any?>
     constructor(
-            private val default: T,
-            private val clazz: KClass<*>,
-            private val keyName: String? = null
+        private val default: T,
+        private val clazz: KClass<*>,
+        private val keyName: String? = null
     ) : ReadWriteProperty<PersistentConfig, T?> {
 
         @Suppress("UNCHECKED_CAST")
