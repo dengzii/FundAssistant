@@ -22,7 +22,7 @@ public class FundApiTest {
     @Test
     public void singApiSubscribeTest() {
 
-        AbstractTask<List<FundBean>> task = new FundTask(new SinaFundApi());
+        AbstractPollTask<List<FundBean>> task = new FundPollTask(new SinaFundApi());
         task.subscribe(new UpdateSubscriber<List<FundBean>>() {
             @Override
             public void onUpdate(List<FundBean> result) {

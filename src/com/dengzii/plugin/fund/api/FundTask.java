@@ -4,7 +4,7 @@ import com.dengzii.plugin.fund.api.bean.FundBean;
 
 import java.util.List;
 
-public class FundTask extends AbstractTask<List<FundBean>> {
+public class FundTask extends AbstractPollTask<List<FundBean>> {
 
     private final FundApi api;
 
