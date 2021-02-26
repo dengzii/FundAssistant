@@ -1,6 +1,7 @@
 package com.dengzii.plugin.fund.ui
 
 import com.dengzii.plugin.fund.PluginConfig
+import com.dengzii.plugin.fund.PluginConfigurable
 import com.dengzii.plugin.fund.conf.FundColConfig
 import com.dengzii.plugin.fund.design.FundPanelForm
 import com.dengzii.plugin.fund.model.UserFundModel
@@ -9,6 +10,7 @@ import com.dengzii.plugin.fund.tools.ui.ColumnInfo
 import com.dengzii.plugin.fund.tools.ui.TableAdapter
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionToolbarPosition
+import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.ToolbarDecorator
@@ -24,6 +26,7 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     private val tableAdapter = TableAdapter(tableData, columnInfos)
 
     private val colConfig = PluginConfig.fundColConfig!!.columns
+    private lateinit var project: Project
 
     private fun init() {
 
@@ -40,17 +43,25 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
         tableFund.columnSelectionAllowed = false
         tableFund.rowSelectionAllowed = false
         tableAdapter.setup(tableFund)
+
         val toolBar = ToolbarDecorator.createDecorator(tableFund)
-            .addExtraActions(ActionToolBarUtils.createActionButton("同步", AllIcons.Actions.Refresh) {
+                .addExtraActions(ActionToolBarUtils.createActionButton("添加", AllIcons.General.Add) {
+                    AddFundDialog().packAndShow()
+                })
+                .addExtraActions(ActionToolBarUtils.createActionButton("编辑", AllIcons.Actions.Edit) {
 
-            })
-            .addExtraActions(ActionToolBarUtils.createActionButton("设置", AllIcons.General.Settings) {
+                })
+                .addExtraActions(ActionToolBarUtils.createActionButton("同步", AllIcons.Actions.Refresh) {
 
-            })
-            .addExtraActions(ActionToolBarUtils.createActionButton("默认排序", AllIcons.ObjectBrowser.Sorted) {
+                })
+                .addExtraActions(ActionToolBarUtils.createActionButton("设置", AllIcons.General.Settings) {
+                    ShowSettingsUtil.getInstance().editConfigurable(project, PluginConfigurable())
 
-            })
-            .setToolbarPosition(ActionToolbarPosition.LEFT)
+                })
+                .addExtraActions(ActionToolBarUtils.createActionButton("默认排序", AllIcons.ObjectBrowser.Sorted) {
+
+                })
+                .setToolbarPosition(ActionToolbarPosition.LEFT)
 
         initTableColumnInfo()
         initTaleData()
@@ -59,6 +70,9 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     }
 
     override fun onCreate(project: Project, toolWindow: ToolWindow) {
+        if (!this::project.isInitialized) {
+            this.project = project
+        }
         val factory = ContentFactory.SERVICE.getInstance()
         val content = factory.createContent(contentPanel, "Fund", false)
         init()

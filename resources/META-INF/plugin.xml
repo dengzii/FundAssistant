@@ -28,6 +28,9 @@
                 doNotActivateOnStart="false"
                 order="last"
                 icon="PluginIcons.PluginIcon"/>
+        <applicationConfigurable groupId="tools" displayName="FundAssistant"
+                                 id="preferences.fund"
+                                 instance="com.dengzii.plugin.fund.PluginConfigurable"/>
     </extensions>
 
     <actions>
