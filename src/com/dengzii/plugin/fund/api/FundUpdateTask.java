@@ -4,9 +4,11 @@ import com.dengzii.plugin.fund.api.bean.FundBean;
 
 import java.util.List;
 
-public class SinaFundApi implements FundApi{
+public class FundUpdateTask extends AbstractUpdateTask<List<FundBean>> {
+
     @Override
-    public List<FundBean> getFundList() {
+    List<FundBean> update() {
+        // 请求基金API然后返回结果...
         return null;
     }
 }
