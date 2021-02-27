@@ -12,6 +12,8 @@ public interface FundApi {
 
     NetValueBean getNewestNetValue(String fundCode);
 
+    AbstractPollTask<List<FundBean>> updateFundList(List<FundBean> fundBeans);
+
     List<NetValueBean> getNetValueHistory3Month(String fundCode);
 
     List<NetValueBean> getNetValueHistory(String fundCode, int page, int pageSize);

@@ -57,6 +57,24 @@ public class TianTianFundApi implements FundApi {
     }
 
     @Override
+    public AbstractPollTask<List<FundBean>> updateFundList(final List<FundBean> fundBeans) {
+        return new AbstractPollTask<>() {
+            @Override
+            List<FundBean> update() {
+                for (FundBean fundBean : fundBeans) {
+                    FundBean f = getFundNewestDetail(fundBean.getFundCode());
+                    fundBean.setCutOffDate(f.getCutOffDate());
+                    fundBean.setNetValue(f.getNetValue());
+                    fundBean.setNetValueReckon(f.getNetValueReckon());
+                    fundBean.setGrowthRateReckon(f.getGrowthRateReckon());
+                    fundBean.setUpdateTime(f.getUpdateTime());
+                }
+                return fundBeans;
+            }
+        };
+    }
+
+    @Override
     public NetValueBean getNewestNetValue(String fundCode) {
         List<NetValueBean> h = getNetValueHistory(fundCode, 1, 1);
         if (h.isEmpty()) {

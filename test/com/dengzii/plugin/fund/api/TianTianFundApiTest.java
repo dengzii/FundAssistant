@@ -4,6 +4,7 @@ import com.dengzii.plugin.fund.api.bean.FundBean;
 import com.dengzii.plugin.fund.api.bean.NetValueBean;
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TianTianFundApiTest extends TestCase {
@@ -41,5 +42,26 @@ public class TianTianFundApiTest extends TestCase {
 
         TianTianFundApi api = new TianTianFundApi();
         System.out.println(api.getFundNewestDetail("160220"));
+    }
+
+    public void testUpdateFundList() throws InterruptedException {
+
+        List<FundBean> fundBeans = new ArrayList<>();
+        fundBeans.add(new FundBean("160220"));
+        fundBeans.add(new FundBean("000001"));
+        fundBeans.add(new FundBean("000002"));
+
+        TianTianFundApi api = new TianTianFundApi();
+        AbstractPollTask<List<FundBean>> pollTask = api.updateFundList(fundBeans);
+        pollTask.subscribe(result -> {
+            for (FundBean fundBean : result) {
+                System.out.println(fundBean);
+            }
+        });
+
+        pollTask.start(2000);
+        Thread.sleep(10000);
+        pollTask.stop();
+        Thread.sleep(10000);
     }
 }

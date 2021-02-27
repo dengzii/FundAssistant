@@ -24,6 +24,13 @@ public class FundBean {
     @SerializedName("gztime")
     private String updateTime;
 
+    public FundBean(String fundCode){
+        this.fundCode = fundCode;
+    }
+
+    public FundBean(){
+    }
+
     public String getFundCode() {
         return fundCode;
     }
@@ -62,6 +69,46 @@ public class FundBean {
 
     public void setPingYing(String pingYing) {
         this.pingYing = pingYing;
+    }
+
+    public String getCutOffDate() {
+        return cutOffDate;
+    }
+
+    public void setCutOffDate(String cutOffDate) {
+        this.cutOffDate = cutOffDate;
+    }
+
+    public float getNetValue() {
+        return netValue;
+    }
+
+    public void setNetValue(float netValue) {
+        this.netValue = netValue;
+    }
+
+    public float getNetValueReckon() {
+        return netValueReckon;
+    }
+
+    public void setNetValueReckon(float netValueReckon) {
+        this.netValueReckon = netValueReckon;
+    }
+
+    public float getGrowthRateReckon() {
+        return growthRateReckon;
+    }
+
+    public void setGrowthRateReckon(float growthRateReckon) {
+        this.growthRateReckon = growthRateReckon;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override

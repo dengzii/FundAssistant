@@ -23,6 +23,11 @@ public class SinaFundApi implements FundApi {
     }
 
     @Override
+    public AbstractPollTask<List<FundBean>> updateFundList(List<FundBean> fundBeans) {
+        return null;
+    }
+
+    @Override
     public List<NetValueBean> getNetValueHistory3Month(String fundCode) {
         return null;
     }

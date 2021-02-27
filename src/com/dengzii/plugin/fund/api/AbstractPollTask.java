@@ -15,12 +15,12 @@ public abstract class AbstractPollTask<T> implements PollTask, SubScribeSource<T
 
     @Override
     public void start(long durationMilliSec) {
-        executor.schedule(() -> {
+        executor.scheduleAtFixedRate(() -> {
             T result = update();
             for (Subscriber<T> subscriber : subscribers) {
                 subscriber.onUpdate(result);
             }
-        }, durationMilliSec, TimeUnit.MILLISECONDS);
+        }, 0, durationMilliSec, TimeUnit.MILLISECONDS);
     }
 
     @Override
