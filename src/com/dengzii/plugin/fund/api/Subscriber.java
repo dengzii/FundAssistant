@@ -1,5 +1,5 @@
 package com.dengzii.plugin.fund.api;
 
-public interface UpdateSubscriber<T> {
+public interface Subscriber<T> {
     void onUpdate(T result);
 }

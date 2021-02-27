@@ -2,43 +2,45 @@ package com.dengzii.plugin.fund.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public abstract class AbstractPollTask<T> implements PollTask, UpdateSubScribeSource<T> {
+public abstract class AbstractPollTask<T> implements PollTask, SubScribeSource<T> {
 
-    private final Executor executor = Executors.newSingleThreadExecutor();
-    private final List<UpdateSubscriber<T>> subscribers = new ArrayList<>();
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+    private final List<Subscriber<T>> subscribers = new ArrayList<>();
+
+    private boolean isStopped = true;
 
     @Override
-    public void start() {
-        executor.execute(() -> {
-            for (; ; ) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                T result = update();
-                for (UpdateSubscriber<T> subscriber : subscribers) {
-                    subscriber.onUpdate(result);
-                }
+    public void start(long durationMilliSec) {
+        executor.schedule(() -> {
+            T result = update();
+            for (Subscriber<T> subscriber : subscribers) {
+                subscriber.onUpdate(result);
             }
-        });
+        }, durationMilliSec, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void stop() {
-        // TODO: 2021/2/26 停止轮询
+        executor.shutdownNow();
+        isStopped = true;
     }
 
     @Override
-    public void subscribe(UpdateSubscriber<T> subscriber) {
+    public boolean isStopped() {
+        return isStopped;
+    }
+
+    @Override
+    public void subscribe(Subscriber<T> subscriber) {
         subscribers.add(subscriber);
     }
 
     @Override
-    public void unsubscribe(UpdateSubscriber<T> subscriber) {
+    public void unsubscribe(Subscriber<T> subscriber) {
         subscribers.remove(subscriber);
     }
 

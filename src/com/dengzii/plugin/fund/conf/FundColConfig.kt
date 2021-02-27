@@ -44,7 +44,7 @@ class FundColConfig {
             return when (this) {
                 FundCode -> model.fundBean.fundCode
                 FundName -> model.fundBean.fundName
-                FloatingRange -> model.floatingRange.formatPercent()
+                FloatingRange -> model.growthRateReckon.formatPercent()
                 NetValueReckon -> model.netValueReckon.format()
                 HoldingShare -> model.holdingShare.format()
                 UpdatedAt -> model.updatedAt

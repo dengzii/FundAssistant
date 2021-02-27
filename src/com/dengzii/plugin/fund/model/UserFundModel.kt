@@ -6,7 +6,7 @@ import kotlin.random.Random
 class UserFundModel {
 
     lateinit var fundBean: FundBean
-    var floatingRange = 0f
+    var growthRateReckon = 0f
     var buyingPrice = 0f
     var totalYield = 0f
     var totalGains = 0f
@@ -31,7 +31,7 @@ class UserFundModel {
         this.holdingShare = r.nextInt(100,200) * 1.32f
         this.totalYield = r.nextFloat() * r.nextInt(-30, 30)
         this.updatedAt = "2-26 15:51"
-        this.floatingRange = r.nextFloat() * 5
+        this.growthRateReckon = r.nextFloat() * 5
         this.netValueReckon = r.nextFloat() * 5
     }
 
