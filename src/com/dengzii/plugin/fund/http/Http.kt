@@ -6,6 +6,7 @@ import org.apache.http.impl.client.HttpClientBuilder
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.nio.charset.Charset
 
 class Http {
 
@@ -28,17 +29,8 @@ class Http {
     fun get(url: String): String {
         val r = RequestBuilder.get(url).build()
         val response: HttpResponse = client.execute(r)
-        val inputStream = response.entity.content
-        val builder = StringBuilder()
-        val br = BufferedReader(InputStreamReader(inputStream))
-        while (true) {
-            val s = br.readLine()
-            if (s == null || s.isEmpty()) {
-                break
-            }
-            builder.append(s)
-        }
-        return builder.toString()
+        val br = response.entity.content.bufferedReader(Charset.forName("utf-8"))
+        return br.readText()
     }
 
     @Throws(IOException::class)

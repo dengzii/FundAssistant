@@ -2,6 +2,7 @@ package com.dengzii.plugin.fund.tools.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.WindowStateService
+import java.awt.Dimension
 import java.awt.Point
 import java.awt.Rectangle
 import java.awt.Toolkit
@@ -63,7 +64,7 @@ abstract class XDialog() : JDialog() {
     fun getLocationCenterOfScreen(): Point {
         val screen = toolkit.screenSize
         val x = screen.width / 2 - width / 2
-        val y = screen.height / 2 - height /2
+        val y = screen.height / 2 - height / 2
         return Point(x, y)
     }
 
@@ -109,12 +110,22 @@ abstract class XDialog() : JDialog() {
     open fun restoreState() {
         val bounds = WindowStateService.getInstance().getBounds(keyWindowStatePersist)
                 ?: Rectangle().apply {
+                    val defaultSize = getDefaultSize()
                     val screenSize = Toolkit.getDefaultToolkit().screenSize
-                    height = 300
-                    width = 500
-                    y = screenSize.height / 2 - height
+                    if (defaultSize == null) {
+                        height = 300
+                        width = 500
+                    } else {
+                        height = defaultSize.height
+                        width = defaultSize.width
+                    }
+                    y = screenSize!!.height / 2 - height / 2
                     x = screenSize.width / 2 - width / 2
                 }
         setBounds(bounds)
+    }
+
+    open fun getDefaultSize(): Dimension? {
+        return null
     }
 }

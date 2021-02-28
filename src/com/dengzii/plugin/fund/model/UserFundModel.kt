@@ -3,7 +3,7 @@ package com.dengzii.plugin.fund.model
 import com.dengzii.plugin.fund.api.bean.FundBean
 import kotlin.random.Random
 
-class UserFundModel {
+class UserFundModel() {
 
     lateinit var fundBean: FundBean
     var growthRateReckon = 0f
@@ -19,6 +19,10 @@ class UserFundModel {
     var gainsWeek = 0f
     var gainsMonth = 0f
 
+    constructor(fundBean: FundBean) : this() {
+        this.fundBean = fundBean
+    }
+
     fun rand() {
         this.fundBean = FundBean().apply {
             fundName = "诺安成长混合"
@@ -28,7 +32,7 @@ class UserFundModel {
         this.buyingPrice = r.nextInt(1, 7) * 1.34f
         this.gainsReckon = r.nextFloat()
         this.totalGains = r.nextFloat() * r.nextInt(-500, 1000)
-        this.holdingShare = r.nextInt(100,200) * 1.32f
+        this.holdingShare = r.nextInt(100, 200) * 1.32f
         this.totalYield = r.nextFloat() * r.nextInt(-30, 30)
         this.updatedAt = "2-26 15:51"
         this.growthRateReckon = r.nextFloat() * 5

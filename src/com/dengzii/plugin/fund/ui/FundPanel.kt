@@ -4,7 +4,7 @@ import com.dengzii.plugin.fund.PluginConfig
 import com.dengzii.plugin.fund.PluginConfigurable
 import com.dengzii.plugin.fund.conf.FundColConfig
 import com.dengzii.plugin.fund.design.FundPanelForm
-import com.dengzii.plugin.fund.model.UserFundModel
+import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.tools.ui.ActionToolBarUtils
 import com.dengzii.plugin.fund.tools.ui.ColumnInfo
 import com.dengzii.plugin.fund.tools.ui.TableAdapter
@@ -20,7 +20,7 @@ import javax.swing.table.TableRowSorter
 
 class FundPanel : FundPanelForm(), ToolWindowPanel {
 
-    private val fundData = mutableListOf<UserFundModel>()
+    private lateinit var fundData: FundGroup
     private val tableData = mutableListOf<MutableList<Any?>>()
     private val columnInfos = mutableListOf<ColumnInfo<Any>>()
     private val tableAdapter = TableAdapter(tableData, columnInfos)
@@ -30,26 +30,19 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
 
     private fun init() {
 
-        fundData.add(UserFundModel().apply { rand() })
-        fundData.add(UserFundModel().apply { rand() })
-        fundData.add(UserFundModel().apply { rand() })
-        fundData.add(UserFundModel().apply { rand() })
-        fundData.add(UserFundModel().apply { rand() })
-        fundData.add(UserFundModel().apply { rand() })
-        fundData.add(UserFundModel().apply { rand() })
-        fundData.add(UserFundModel().apply { rand() })
-
+        fundData = PluginConfig.fundGroups!!["default-group"]!!
         tableFund.rowHeight = 40
         tableFund.columnSelectionAllowed = false
         tableFund.rowSelectionAllowed = false
         tableAdapter.setup(tableFund)
 
         val toolBar = ToolbarDecorator.createDecorator(tableFund)
-                .addExtraActions(ActionToolBarUtils.createActionButton("添加", AllIcons.General.Add) {
-                    AddFundDialog().packAndShow()
-                })
                 .addExtraActions(ActionToolBarUtils.createActionButton("编辑", AllIcons.Actions.Edit) {
-
+                    EditFundGroupListDialog.show(fundData) {
+                        fundData = it
+//                        PluginConfig.fundGroups!![it.groupName] = it
+                        initTaleData()
+                    }
                 })
                 .addExtraActions(ActionToolBarUtils.createActionButton("同步", AllIcons.Actions.Refresh) {
 
@@ -118,7 +111,7 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
 
     private fun initTaleData() {
         tableData.clear()
-        fundData.forEach { m ->
+        fundData.fundList.forEach { (_, m) ->
             val row = mutableListOf<Any?>()
             colConfig.forEach {
                 row.add(it.getAttr(m))
