@@ -12,7 +12,7 @@ public class EditFundGroupForm extends XDialog {
     protected JList<String> listSelected;
     protected JTextField textFieldSearch;
     protected JList<String> listSearch;
-    private JTextField textFieldGroupName;
+    protected JTextField textFieldGroupName;
 
     public EditFundGroupForm(String title){
         super(title);

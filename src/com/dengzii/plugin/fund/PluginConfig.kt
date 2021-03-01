@@ -9,9 +9,20 @@ import com.google.gson.reflect.TypeToken
 
 object PluginConfig : PersistentConfig() {
 
-    var fundColConfig by persistentProperty(FundColConfig(), "FundColConfig")
-    var fundGroups by persistentProperty(mutableMapOf(Pair("default-group", FundGroup())), "FundGroups")
+    var fundColConfig by persistentProperty(FundColConfig(), "FundColConfig1")
+    private var mFundGroupsPer by persistentProperty("{}", "FundGroups1")
     private var mAllFunds by persistentProperty("[]", "AllFundList1")
+
+    private var mFundGroups1: Map<String, FundGroup>? = null
+
+    fun loadFundGroups(): Map<String, FundGroup> {
+        val t = object : TypeToken<Map<String, FundGroup>>() {}.type
+        return GsonUtils.fromJson(mFundGroupsPer!!, t)
+    }
+
+    fun saveFundGroups(groups: Map<String, FundGroup>) {
+        mFundGroupsPer = GsonUtils.toJson(groups)
+    }
 
     fun loadAllFunds(): List<FundBean> {
         val t = object : TypeToken<List<FundBean>>() {}.type

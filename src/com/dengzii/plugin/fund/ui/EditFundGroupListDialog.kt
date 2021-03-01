@@ -8,6 +8,7 @@ import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.model.UserFundModel
 import com.dengzii.plugin.fund.tools.ui.onClick
 import com.dengzii.plugin.fund.utils.async
+import java.awt.CardLayout
 import java.awt.Dimension
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
@@ -17,12 +18,13 @@ import javax.swing.DefaultListModel
 import javax.swing.ListSelectionModel
 
 class EditFundGroupListDialog(
-        private val allFunds: List<FundBean>,
-        private val fundGroup: FundGroup,
-        private val callback: (callback: FundGroup) -> Unit
+    private val allFunds: List<FundBean>,
+    private val fundGroup: FundGroup,
+    private val callback: (callback: FundGroup) -> Unit
 ) : EditFundGroupForm("编辑基金列表") {
 
     private val searchListModel = DefaultListModel<String>()
+    private val searchResult = mutableListOf<FundBean>()
     private val selectedListModel = DefaultListModel<String>()
     private var listDither1 = 0L
     private var listDither2 = 0L
@@ -39,18 +41,21 @@ class EditFundGroupListDialog(
                     TianTianFundApi().fundList
                 }.callback {
                     PluginConfig.saveAllFunds(it)
-                    EditFundGroupListDialog(it, origin, callback).packAndShow()
+                    EditFundGroupListDialog(it, origin.clone(), callback).packAndShow()
                 }
             } else {
-                EditFundGroupListDialog(allFunds, origin, callback).packAndShow()
+                EditFundGroupListDialog(allFunds, origin.clone(), callback).packAndShow()
             }
         }
     }
 
     override fun onOpened() {
         super.onOpened()
+        textFieldGroupName.text = fundGroup.groupName
+
         buttonApply.onClick {
             isVisible = false
+            fundGroup.groupName = textFieldGroupName.text.trim()
             callback(fundGroup)
             dispose()
         }
@@ -64,10 +69,14 @@ class EditFundGroupListDialog(
                 if (text.isBlank()) {
                     return
                 }
+                listSearch.isVisible = true
                 searchListModel.clear()
+                searchResult.clear()
                 allFunds.forEach {
                     if (it.fundName.contains(text) || it.fundCode.contains(text) ||
-                            it.pingYingAbbr.contains(text) || it.pingYing.contains(text)) {
+                        it.pingYingAbbr.contains(text) || it.pingYing.contains(text)
+                    ) {
+                        searchResult.add(it)
                         searchListModel.addElement("${it.fundName}-${it.fundCode}")
                     }
                 }
@@ -88,11 +97,13 @@ class EditFundGroupListDialog(
                 return@addListSelectionListener
             }
             listDither1 = System.currentTimeMillis()
-            val selected = allFunds[selectedIndex]
+            val selected = searchResult[selectedIndex]
             if (fundGroup.fundList.containsKey(selected.fundCode)) {
                 return@addListSelectionListener
             }
-            fundGroup.fundList[selected.fundCode] = UserFundModel(selected)
+            fundGroup.fundList[selected.fundCode] = UserFundModel(selected).apply {
+                addDate = System.currentTimeMillis()
+            }
             selectedListModel.addElement("${selected.fundName}-${selected.fundCode}")
         }
         listSelected.addListSelectionListener {
@@ -121,6 +132,8 @@ class EditFundGroupListDialog(
         fundGroup.fundList.forEach { (_, u) ->
             selectedListModel.addElement("${u.fundBean.fundName}-${u.fundBean.fundCode}")
         }
+
+        textFieldSearch.requestFocus()
     }
 
     override fun getDefaultSize(): Dimension {

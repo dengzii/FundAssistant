@@ -2,6 +2,9 @@ package com.dengzii.plugin.fund.ui
 
 import com.dengzii.plugin.fund.PluginConfig
 import com.dengzii.plugin.fund.PluginConfigurable
+import com.dengzii.plugin.fund.api.AbstractPollTask
+import com.dengzii.plugin.fund.api.TianTianFundApi
+import com.dengzii.plugin.fund.api.bean.FundBean
 import com.dengzii.plugin.fund.conf.FundColConfig
 import com.dengzii.plugin.fund.design.FundPanelForm
 import com.dengzii.plugin.fund.model.FundGroup
@@ -25,39 +28,43 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     private val columnInfos = mutableListOf<ColumnInfo<Any>>()
     private val tableAdapter = TableAdapter(tableData, columnInfos)
 
+    private val funds = mutableListOf<FundBean>()
+    private val pollDuration = 10000L
+    private val api = TianTianFundApi()
+    private var pollTask: AbstractPollTask<List<FundBean>>? = null
     private val colConfig = PluginConfig.fundColConfig!!.columns
     private lateinit var project: Project
 
     private fun init() {
 
-        fundData = PluginConfig.fundGroups!!["default-group"]!!
+        fundData = PluginConfig.loadFundGroups().getOrElse("default-group") { FundGroup() }
+
         tableFund.rowHeight = 40
         tableFund.columnSelectionAllowed = false
         tableFund.rowSelectionAllowed = false
         tableAdapter.setup(tableFund)
 
         val toolBar = ToolbarDecorator.createDecorator(tableFund)
-                .addExtraActions(ActionToolBarUtils.createActionButton("编辑", AllIcons.Actions.Edit) {
-                    EditFundGroupListDialog.show(fundData) {
-                        fundData = it
-//                        PluginConfig.fundGroups!![it.groupName] = it
-                        initTaleData()
-                    }
-                })
-                .addExtraActions(ActionToolBarUtils.createActionButton("同步", AllIcons.Actions.Refresh) {
+            .addExtraActions(ActionToolBarUtils.createActionButton("编辑", AllIcons.Actions.Edit) {
+                EditFundGroupListDialog.show(fundData) {
+                    fundData = it
+                    PluginConfig.saveFundGroups(mutableMapOf(Pair(fundData.groupName, fundData)))
+                    updateFundList()
+                    updatePollTask()
+                }
+            })
+            .addExtraActions(ActionToolBarUtils.createActionButton("立即刷新", AllIcons.Actions.Refresh) {
+                updatePollTask()
+            })
+            .addExtraActions(ActionToolBarUtils.createActionButton("设置", AllIcons.General.Settings) {
+                ShowSettingsUtil.getInstance().editConfigurable(project, PluginConfigurable())
 
-                })
-                .addExtraActions(ActionToolBarUtils.createActionButton("设置", AllIcons.General.Settings) {
-                    ShowSettingsUtil.getInstance().editConfigurable(project, PluginConfigurable())
-
-                })
-                .addExtraActions(ActionToolBarUtils.createActionButton("默认排序", AllIcons.ObjectBrowser.Sorted) {
-
-                })
-                .setToolbarPosition(ActionToolbarPosition.LEFT)
+            })
+            .setToolbarPosition(ActionToolbarPosition.LEFT)
 
         initTableColumnInfo()
-        initTaleData()
+        updateFundList()
+        updatePollTask()
         initTableSorter()
         contentPanel.add(toolBar.createPanel(), BorderLayout.CENTER)
     }
@@ -81,11 +88,11 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     }
 
     override fun onWindowHide() {
-
+        pollTask?.stop()
     }
 
     override fun onWindowShow() {
-
+        pollTask?.start(pollDuration)
     }
 
     private fun initTableColumnInfo() {
@@ -98,7 +105,7 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
                     }
                 }
                 FundColConfig.Col.NetValueReckon -> ColoredColInfo(it.getName())
-                FundColConfig.Col.FloatingRange -> ColoredColInfo(it.getName())
+                FundColConfig.Col.GrowthRateReckon -> ColoredColInfo(it.getName())
                 FundColConfig.Col.TotalYield -> ColoredColInfo(it.getName())
                 FundColConfig.Col.TotalGains -> ColoredColInfo(it.getName())
                 FundColConfig.Col.GainsReckon -> ColoredColInfo(it.getName())
@@ -109,16 +116,32 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
         tableAdapter.fireTableStructureChanged()
     }
 
-    private fun initTaleData() {
+    private fun updateFundList() {
         tableData.clear()
+        funds.clear()
         fundData.fundList.forEach { (_, m) ->
-            val row = mutableListOf<Any?>()
+            val col = mutableListOf<Any?>()
+            funds.add(m.fundBean)
             colConfig.forEach {
-                row.add(it.getAttr(m))
+                col.add(it.getAttr(m))
             }
-            tableData.add(row)
+            tableData.add(col)
         }
         tableAdapter.fireTableDataChanged()
+    }
+
+    private fun updatePollTask() {
+        pollTask?.stop()
+        pollTask?.unsubscribeAll()
+        pollTask = api.updateFundList(fundData.fundList.map { it.value.fundBean })
+        pollTask?.subscribe {
+            it.forEach { f ->
+                fundData.fundList[f.fundCode]?.updateFund(f)
+            }
+            updateFundList()
+            println("FundPanel.updatePollTask.update")
+        }
+        pollTask?.start(pollDuration)
     }
 
     private fun initTableSorter() {
@@ -136,7 +159,7 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
                     })
                 }
                 FundColConfig.Col.NetValueReckon -> sorter.setComparator(index, numberComparator)
-                FundColConfig.Col.FloatingRange -> sorter.setComparator(index, numberComparator)
+                FundColConfig.Col.GrowthRateReckon -> sorter.setComparator(index, numberComparator)
                 FundColConfig.Col.BuyingPrice -> sorter.setComparator(index, numberComparator)
                 FundColConfig.Col.TotalYield -> sorter.setComparator(index, numberComparator)
                 FundColConfig.Col.TotalGains -> sorter.setComparator(index, numberComparator)

@@ -4,7 +4,9 @@ import com.dengzii.plugin.fund.api.bean.FundBean;
 import com.dengzii.plugin.fund.api.bean.NetValueBean;
 import com.dengzii.plugin.fund.http.Http;
 import com.dengzii.plugin.fund.utils.GsonUtils;
+import com.dengzii.plugin.fund.utils.Logger;
 import com.google.gson.reflect.TypeToken;
+import org.apache.http.impl.execchain.RequestAbortedException;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -36,6 +38,8 @@ public class TianTianFundApi implements FundApi {
                 fundBeans.add(fb);
             }
             return fundBeans;
+        } catch (InterruptedException | RequestAbortedException e) {
+            // ignore
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,11 +49,15 @@ public class TianTianFundApi implements FundApi {
     @Override
     public FundBean getFundNewestDetail(String fundCode) {
         try {
-            String response = Http.getInstance().get("http://fundgz.1234567.com.cn/js/001186.js?rt=" + System.currentTimeMillis());
+            String response = Http.getInstance().get(String.format("http://fundgz.1234567.com.cn/js/%s.js?rt=%d",
+                    fundCode, System.currentTimeMillis()));
             response = response.substring(8, response.length() - 2);
             Type t = new TypeToken<FundBean>() {
             }.getType();
+            Logger.log("TianTianApi.getFundNewestDetail", response);
             return GsonUtils.fromJson(response, t);
+        } catch (InterruptedException | RequestAbortedException e) {
+            // ignore
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,6 +71,9 @@ public class TianTianFundApi implements FundApi {
             List<FundBean> update() {
                 for (FundBean fundBean : fundBeans) {
                     FundBean f = getFundNewestDetail(fundBean.getFundCode());
+                    if (f == null) {
+                        continue;
+                    }
                     fundBean.setCutOffDate(f.getCutOffDate());
                     fundBean.setNetValue(f.getNetValue());
                     fundBean.setNetValueReckon(f.getNetValueReckon());
@@ -119,6 +130,8 @@ public class TianTianFundApi implements FundApi {
                 bean.setRedemptionStatus(sp[6]);
                 netValueBeans.add(bean);
             }
+        } catch (InterruptedException | RequestAbortedException e) {
+            // ignore
         } catch (IOException e) {
             e.printStackTrace();
         }

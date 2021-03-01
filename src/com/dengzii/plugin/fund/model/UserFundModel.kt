@@ -15,12 +15,21 @@ class UserFundModel() {
     var gainsReckon = 0f
     var updatedAt = ""
 
+    var addDate = 0L
     var gainsAfterAdded = 0f
     var gainsWeek = 0f
     var gainsMonth = 0f
 
     constructor(fundBean: FundBean) : this() {
         this.fundBean = fundBean
+    }
+
+    fun updateFund(updated: FundBean) {
+        fundBean.cutOffDate = updated.cutOffDate
+        fundBean.growthRateReckon = updated.growthRateReckon
+        fundBean.netValue = updated.netValue
+        fundBean.updateTime = updated.updateTime
+        fundBean.netValueReckon = updated.netValueReckon
     }
 
     fun rand() {

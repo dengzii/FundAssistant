@@ -1,5 +1,6 @@
 package com.dengzii.plugin.fund.http
 
+import com.dengzii.plugin.fund.utils.Logger
 import org.apache.http.HttpResponse
 import org.apache.http.client.methods.RequestBuilder
 import org.apache.http.impl.client.HttpClientBuilder
@@ -25,10 +26,11 @@ class Http {
         }
     }
 
-    @Throws(IOException::class)
+    @Throws(IOException::class, InterruptedException::class)
     fun get(url: String): String {
         val r = RequestBuilder.get(url).build()
         val response: HttpResponse = client.execute(r)
+        Logger.log("Http.get", "${response.statusLine.statusCode} $url")
         val br = response.entity.content.bufferedReader(Charset.forName("utf-8"))
         return br.readText()
     }
