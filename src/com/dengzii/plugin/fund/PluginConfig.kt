@@ -7,36 +7,45 @@ import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.tools.PersistentConfig
 import com.dengzii.plugin.fund.utils.GsonUtils
 import com.google.gson.reflect.TypeToken
+import com.intellij.ide.util.PropertiesComponent
+import java.lang.reflect.Type
 
 /**
  * @author https://github.com/dengzii/
  */
 object PluginConfig : PersistentConfig() {
 
-    var fundColConfig by persistentProperty(FundColConfig(), "FundColConfig")
-    var fundTheme by persistentProperty(FundTheme.Default, "FundTheme")
-    var fundRefreshDuration by persistentProperty(20, "FundRefreshDuration")
+    var fundColConfig
+        get() = load("FundColConfig", FundColConfig(), object : TypeToken<FundColConfig>() {}.type)
+        set(value) = save("FundColConfig", value)
 
-    private var mFundGroupsPer by persistentProperty("{}", "FundGroups")
-    private var mAllFunds by persistentProperty("[]", "AllFundList")
+    var fundTheme
+        get() = load("FundTheme", FundTheme.Default, object : TypeToken<FundTheme>() {}.type)
+        set(value) = save("FundTheme", value)
 
-    private var mFundGroups1: Map<String, FundGroup>? = null
+    var fundRefreshDuration: Int
+        get() = PropertiesComponent.getInstance().getValue("FundRefreshDuration", "60").toInt()
+        set(value) = PropertiesComponent.getInstance().setValue("FundRefreshDuration", value.toString())
 
-    fun loadFundGroups(): Map<String, FundGroup> {
-        val t = object : TypeToken<Map<String, FundGroup>>() {}.type
-        return GsonUtils.fromJson(mFundGroupsPer!!, t)
+
+    var fundGroup: Map<String, FundGroup>
+        get() = load("FundGroups", mapOf(), object : TypeToken<Map<String, FundGroup>>() {}.type)
+        set(value) = save("FungGroups", value)
+
+    var allFund: List<FundBean>
+        get() = load("AllFunds", listOf(), object : TypeToken<List<FundBean>>() {}.type)
+        set(value) = save("AllFunds", value)
+
+
+    private fun <T> load(key: String, default: T, type: Type): T {
+        val v = PropertiesComponent.getInstance().getValue(key)
+        if (v.isNullOrBlank()) {
+            return default
+        }
+        return GsonUtils.fromJson(v, type)
     }
 
-    fun saveFundGroups(groups: Map<String, FundGroup>) {
-        mFundGroupsPer = GsonUtils.toJson(groups)
-    }
-
-    fun loadAllFunds(): List<FundBean> {
-        val t = object : TypeToken<List<FundBean>>() {}.type
-        return GsonUtils.fromJson(mAllFunds!!, t)
-    }
-
-    fun saveAllFunds(funds: List<FundBean>) {
-        mAllFunds = GsonUtils.toJson(funds)
+    private fun save(key: String, value: Any) {
+        PropertiesComponent.getInstance().setValue(key, GsonUtils.toJson(value))
     }
 }

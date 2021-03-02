@@ -14,12 +14,14 @@ import com.dengzii.plugin.fund.tools.ui.ColumnInfo
 import com.dengzii.plugin.fund.tools.ui.TableAdapter
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionToolbarPosition
+import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.content.ContentFactory
 import java.awt.BorderLayout
+import javax.swing.Icon
 import javax.swing.table.TableRowSorter
 
 /**
@@ -36,13 +38,13 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     private var pollDuration = 20000L
     private val api = TianTianFundApi()
     private var pollTask: AbstractPollTask<List<FundBean>>? = null
-    private var colConfig = PluginConfig.fundColConfig!!.columns
+    private lateinit var colConfig: List<FundColConfig.Col>
     private lateinit var project: Project
 
     private fun init() {
-        pollDuration = PluginConfig.fundRefreshDuration!! * 1000L
+        pollDuration = PluginConfig.fundRefreshDuration * 1000L
 
-        fundData = PluginConfig.loadFundGroups().getOrElse("default-group") { FundGroup() }
+        fundData = PluginConfig.fundGroup.getOrElse("default-group") { FundGroup() }
 
         tableFund.rowHeight = 40
         tableFund.columnSelectionAllowed = false
@@ -50,21 +52,22 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
         tableAdapter.setup(tableFund)
 
         val toolBar = ToolbarDecorator.createDecorator(tableFund)
-            .addExtraActions(ActionToolBarUtils.createActionButton("编辑", AllIcons.Actions.Edit) {
-                EditFundGroupListDialog.show(fundData) {
-                    fundData = it
-                    PluginConfig.saveFundGroups(mutableMapOf(Pair(fundData.groupName, fundData)))
-                    updateFundList()
+            .addExtraActions(
+                action("编辑", AllIcons.Actions.Edit) {
+                    EditFundGroupListDialog.show(fundData) {
+                        fundData = it
+                        PluginConfig.fundGroup = mutableMapOf(Pair(fundData.groupName, fundData))
+                        updateFundList()
+                        updatePollTask()
+                    }
+                },
+                action("立即刷新", AllIcons.Actions.Refresh) {
                     updatePollTask()
-                }
-            })
-            .addExtraActions(ActionToolBarUtils.createActionButton("立即刷新", AllIcons.Actions.Refresh) {
-                updatePollTask()
-            })
-            .addExtraActions(ActionToolBarUtils.createActionButton("设置", AllIcons.General.Settings) {
-                ShowSettingsUtil.getInstance().editConfigurable(project, PluginConfigurable())
+                },
+                action("设置", AllIcons.General.Settings) {
+                    ShowSettingsUtil.getInstance().editConfigurable(project, PluginConfigurable())
 
-            })
+                })
             .setToolbarPosition(ActionToolbarPosition.LEFT)
 
         initTableColumnInfo()
@@ -107,9 +110,9 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
 
     private fun initTableColumnInfo() {
         columnInfos.clear()
-        colConfig = PluginConfig.fundColConfig!!.columns
+        colConfig = PluginConfig.fundColConfig.columns
         colConfig.forEach {
-            when (PluginConfig.fundTheme!!) {
+            when (PluginConfig.fundTheme) {
                 FundTheme.Default -> it.getName()
                 else -> it.name
             }
@@ -185,4 +188,9 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
         }
         tableFund.rowSorter = sorter
     }
+
+    private fun action(hint: String, icon: Icon, block: (AnActionEvent) -> Unit) =
+        ActionToolBarUtils.createActionButton(hint, icon, block).apply {
+            contextComponent = contentPanel
+        }
 }

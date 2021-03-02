@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * @author https://github.com/dengzii/
  */
-public class  TianTianFundApi implements FundApi {
+public class TianTianFundApi implements FundApi {
 
     @Override
     public List<FundBean> getFundList() {
         try {
             String response = Http.getInstance().get("http://fund.eastmoney.com/js/fundcode_search.js").trim();
-            if (response.isBlank()) {
+            if (response.isEmpty()) {
                 return Collections.emptyList();
             }
             response = response.replaceAll("(var r = \\[)|( )|(];)|(\")", "");
@@ -72,7 +72,7 @@ public class  TianTianFundApi implements FundApi {
 
     @Override
     public AbstractPollTask<List<FundBean>> updateFundList(final List<FundBean> fundBeans) {
-        return new AbstractPollTask<>() {
+        return new AbstractPollTask<List<FundBean>>() {
             @Override
             List<FundBean> update() {
                 for (FundBean fundBean : fundBeans) {

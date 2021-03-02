@@ -8,7 +8,6 @@ import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.model.UserFundModel
 import com.dengzii.plugin.fund.tools.ui.onClick
 import com.dengzii.plugin.fund.utils.async
-import java.awt.CardLayout
 import java.awt.Dimension
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
@@ -38,12 +37,12 @@ class EditFundGroupListDialog(
 
     companion object {
         fun show(origin: FundGroup, callback: (callback: FundGroup) -> Unit) {
-            val allFunds = PluginConfig.loadAllFunds()
+            val allFunds = PluginConfig.allFund
             if (allFunds.isNullOrEmpty()) {
                 async {
                     TianTianFundApi().fundList
                 }.callback {
-                    PluginConfig.saveAllFunds(it)
+                    PluginConfig.allFund = it
                     EditFundGroupListDialog(it, origin.clone(), callback).packAndShow()
                 }
             } else {

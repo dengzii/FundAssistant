@@ -29,10 +29,10 @@ class PluginConfigurable : SearchableConfigurable {
         colCheckBox.clear()
 
         form.comboBoxTheme.selectedIndex = FundTheme.values().indexOf(PluginConfig.fundTheme)
-        form.comboBoxDuration.selectedIndex = PluginConfig.fundRefreshDuration!! / 30 - 1
+        form.comboBoxDuration.selectedIndex = PluginConfig.fundRefreshDuration / 30 - 1
 
         val defaultCol = FundColConfig()
-        val colConfig = PluginConfig.fundColConfig!!
+        val colConfig = PluginConfig.fundColConfig
         FundColConfig.Col.values().forEach {
             val cb = JCheckBox(it.getName())
             cb.isSelected = colConfig.columns.contains(it)

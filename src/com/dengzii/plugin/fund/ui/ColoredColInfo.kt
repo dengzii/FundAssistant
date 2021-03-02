@@ -15,10 +15,10 @@ class ColoredColInfo(
 
 
     private val colorRise by lazy {
-        RGBColor.get(PluginConfig.fundTheme!!.rise).getHSL()
+        RGBColor.get(PluginConfig.fundTheme.rise).getHSL()
     }
     private val colorFall by lazy {
-        RGBColor.get(PluginConfig.fundTheme!!.fall).getHSL()
+        RGBColor.get(PluginConfig.fundTheme.fall).getHSL()
     }
 
     override val columnClass = String::class.java
