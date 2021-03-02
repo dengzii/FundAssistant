@@ -59,7 +59,10 @@
             <preferred-size width="187" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+          <enabled value="false"/>
+        </properties>
       </component>
       <grid id="c6e0d" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints>

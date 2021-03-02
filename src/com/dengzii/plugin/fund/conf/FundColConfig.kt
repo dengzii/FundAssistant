@@ -3,21 +3,24 @@ package com.dengzii.plugin.fund.conf
 import com.dengzii.plugin.fund.model.UserFundModel
 import java.text.DecimalFormat
 
-class FundColConfig {
+class FundColConfig(val columns: List<Col>) {
 
-    val columns = mutableListOf(
-        Col.FundName,
-        Col.FundCode,
-        Col.CurrentNetValue,
-        Col.NetValueReckon,
-        Col.GrowthRateReckon,
-        Col.UpdatedAt,
+    constructor() : this(
+        mutableListOf(
+            Col.FundName,
+            Col.FundCode,
+            Col.CurrentNetValue,
+            Col.NetValueReckon,
+            Col.GrowthRateReckon,
+            Col.UpdateTime,
 //        Col.BuyingPrice,
 //        Col.TotalYield,
 //        Col.TotalGains,
 //        Col.HoldingShare,
 //        Col.GainsReckon
+        )
     )
+
 
     enum class Col(private val s: String) {
         FundCode("代码"),
@@ -30,11 +33,16 @@ class FundColConfig {
         TotalGains("总收益"),
         HoldingShare("持有份额"),
         GainsReckon("估算收益"),
-        UpdatedAt("更新时间");
+        UpdateTime("更新时间");
 
         companion object {
             private val format = DecimalFormat("###,###.##")
             private val formatPercent = DecimalFormat("###,###.##%")
+            val valueMap = values().associateBy { it.s }
+
+            fun getByName(s: String): Col {
+                return valueMap[s]!!
+            }
         }
 
         fun getName(): String {
@@ -46,7 +54,7 @@ class FundColConfig {
                 FundCode -> model.fundBean.fundCode
                 FundName -> model.fundBean.fundName
                 CurrentNetValue -> model.fundBean.netValue
-                UpdatedAt -> model.fundBean.updateTime ?: "-"
+                UpdateTime -> model.fundBean.updateTime ?: "-"
                 GrowthRateReckon -> model.fundBean.growthRateReckon.formatPercent()
                 NetValueReckon -> model.fundBean.netValueReckon.format()
                 HoldingShare -> model.holdingShare.format()

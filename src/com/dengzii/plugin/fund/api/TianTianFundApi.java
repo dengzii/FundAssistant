@@ -51,6 +51,9 @@ public class TianTianFundApi implements FundApi {
         try {
             String response = Http.getInstance().get(String.format("http://fundgz.1234567.com.cn/js/%s.js?rt=%d",
                     fundCode, System.currentTimeMillis()));
+            if (response == null) {
+                return null;
+            }
             response = response.substring(8, response.length() - 2);
             Type t = new TypeToken<FundBean>() {
             }.getType();
@@ -58,7 +61,7 @@ public class TianTianFundApi implements FundApi {
             return GsonUtils.fromJson(response, t);
         } catch (InterruptedException | RequestAbortedException e) {
             // ignore
-        } catch (IOException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
@@ -70,15 +73,19 @@ public class TianTianFundApi implements FundApi {
             @Override
             List<FundBean> update() {
                 for (FundBean fundBean : fundBeans) {
-                    FundBean f = getFundNewestDetail(fundBean.getFundCode());
-                    if (f == null) {
-                        continue;
+                    try {
+                        FundBean f = getFundNewestDetail(fundBean.getFundCode());
+                        if (f == null) {
+                            continue;
+                        }
+                        fundBean.setCutOffDate(f.getCutOffDate());
+                        fundBean.setNetValue(f.getNetValue());
+                        fundBean.setNetValueReckon(f.getNetValueReckon());
+                        fundBean.setGrowthRateReckon(f.getGrowthRateReckon());
+                        fundBean.setUpdateTime(f.getUpdateTime());
+                    } catch (Throwable e) {
+
                     }
-                    fundBean.setCutOffDate(f.getCutOffDate());
-                    fundBean.setNetValue(f.getNetValue());
-                    fundBean.setNetValueReckon(f.getNetValueReckon());
-                    fundBean.setGrowthRateReckon(f.getGrowthRateReckon());
-                    fundBean.setUpdateTime(f.getUpdateTime());
                 }
                 return fundBeans;
             }

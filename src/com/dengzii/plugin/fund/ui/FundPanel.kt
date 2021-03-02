@@ -6,6 +6,7 @@ import com.dengzii.plugin.fund.api.AbstractPollTask
 import com.dengzii.plugin.fund.api.TianTianFundApi
 import com.dengzii.plugin.fund.api.bean.FundBean
 import com.dengzii.plugin.fund.conf.FundColConfig
+import com.dengzii.plugin.fund.conf.FundTheme
 import com.dengzii.plugin.fund.design.FundPanelForm
 import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.tools.ui.ActionToolBarUtils
@@ -29,13 +30,14 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     private val tableAdapter = TableAdapter(tableData, columnInfos)
 
     private val funds = mutableListOf<FundBean>()
-    private val pollDuration = 10000L
+    private var pollDuration = 20000L
     private val api = TianTianFundApi()
     private var pollTask: AbstractPollTask<List<FundBean>>? = null
-    private val colConfig = PluginConfig.fundColConfig!!.columns
+    private var colConfig = PluginConfig.fundColConfig!!.columns
     private lateinit var project: Project
 
     private fun init() {
+        pollDuration = PluginConfig.fundRefreshDuration!! * 1000L
 
         fundData = PluginConfig.loadFundGroups().getOrElse("default-group") { FundGroup() }
 
@@ -67,6 +69,11 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
         updatePollTask()
         initTableSorter()
         contentPanel.add(toolBar.createPanel(), BorderLayout.CENTER)
+
+        PluginConfigurable.setConfigChangeListener {
+            initTableColumnInfo()
+            updateFundList()
+        }
     }
 
     override fun onCreate(project: Project, toolWindow: ToolWindow) {
@@ -88,28 +95,33 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     }
 
     override fun onWindowHide() {
-        pollTask?.stop()
+//        pollTask?.stop()
     }
 
     override fun onWindowShow() {
-        pollTask?.start(pollDuration)
+//        pollTask?.start(pollDuration)
     }
 
     private fun initTableColumnInfo() {
         columnInfos.clear()
+        colConfig = PluginConfig.fundColConfig!!.columns
         colConfig.forEach {
+            when (PluginConfig.fundTheme!!) {
+                FundTheme.Default -> it.getName()
+                else -> it.name
+            }
+            val n = it.getName()
             val columnInfo = when (it) {
                 FundColConfig.Col.FundName -> {
-                    FundCodeColInfo(it.getName()) {
+                    FundCodeColInfo(n) {
                         // To fund detail.
                     }
                 }
-                FundColConfig.Col.NetValueReckon -> ColoredColInfo(it.getName())
-                FundColConfig.Col.GrowthRateReckon -> ColoredColInfo(it.getName())
-                FundColConfig.Col.TotalYield -> ColoredColInfo(it.getName())
-                FundColConfig.Col.TotalGains -> ColoredColInfo(it.getName())
-                FundColConfig.Col.GainsReckon -> ColoredColInfo(it.getName())
-                else -> ColumnInfo.new(it.getName(), false)
+                FundColConfig.Col.GrowthRateReckon -> ColoredColInfo(n)
+                FundColConfig.Col.TotalYield -> ColoredColInfo(n)
+                FundColConfig.Col.TotalGains -> ColoredColInfo(n)
+                FundColConfig.Col.GainsReckon -> ColoredColInfo(n)
+                else -> ColumnInfo.new(n, false)
             }
             columnInfos.add(columnInfo)
         }
@@ -139,7 +151,6 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
                 fundData.fundList[f.fundCode]?.updateFund(f)
             }
             updateFundList()
-            println("FundPanel.updatePollTask.update")
         }
         pollTask?.start(pollDuration)
     }

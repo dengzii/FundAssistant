@@ -59,8 +59,8 @@ public class TianTianFundApiTest extends TestCase {
             }
         });
 
-        pollTask.start(2000);
-        Thread.sleep(10000);
+        pollTask.start(500);
+        Thread.sleep(20000);
         pollTask.stop();
         Thread.sleep(10000);
     }

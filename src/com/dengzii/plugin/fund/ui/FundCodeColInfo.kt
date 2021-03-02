@@ -24,9 +24,9 @@ class FundCodeColInfo(
 
     private fun getComponent(text: String): Component {
         return JBLabel(text).apply {
-            val hsb = FloatArray(3)
-            Color.RGBtoHSB(62, 143, 94, hsb)
-            foreground = Color.getHSBColor(hsb[0], hsb[1], hsb[2])
+//            val hsb = FloatArray(3)
+//            Color.RGBtoHSB(62, 143, 94, hsb)
+//            foreground = Color.getHSBColor(hsb[0], hsb[1], hsb[2])
             onClick(onCellClick)
         }
     }

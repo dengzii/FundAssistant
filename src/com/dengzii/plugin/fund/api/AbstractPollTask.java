@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractPollTask<T> implements PollTask, SubScribeSource<T> {
 
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(4);
     private final List<Subscriber<T>> subscribers = new ArrayList<>();
 
     private ScheduledFuture<?> future;

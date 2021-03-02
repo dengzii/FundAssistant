@@ -2,6 +2,7 @@ package com.dengzii.plugin.fund
 
 import com.dengzii.plugin.fund.api.bean.FundBean
 import com.dengzii.plugin.fund.conf.FundColConfig
+import com.dengzii.plugin.fund.conf.FundTheme
 import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.tools.PersistentConfig
 import com.dengzii.plugin.fund.utils.GsonUtils
@@ -9,9 +10,12 @@ import com.google.gson.reflect.TypeToken
 
 object PluginConfig : PersistentConfig() {
 
-    var fundColConfig by persistentProperty(FundColConfig(), "FundColConfig1")
-    private var mFundGroupsPer by persistentProperty("{}", "FundGroups1")
-    private var mAllFunds by persistentProperty("[]", "AllFundList1")
+    var fundColConfig by persistentProperty(FundColConfig(), "FundColConfig")
+    var fundTheme by persistentProperty(FundTheme.Default, "FundTheme")
+    var fundRefreshDuration by persistentProperty(20, "FundRefreshDuration")
+
+    private var mFundGroupsPer by persistentProperty("{}", "FundGroups")
+    private var mAllFunds by persistentProperty("[]", "AllFundList")
 
     private var mFundGroups1: Map<String, FundGroup>? = null
 
