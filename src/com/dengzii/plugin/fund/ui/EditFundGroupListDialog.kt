@@ -17,6 +17,9 @@ import java.awt.event.MouseEvent
 import javax.swing.DefaultListModel
 import javax.swing.ListSelectionModel
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class EditFundGroupListDialog(
     private val allFunds: List<FundBean>,
     private val fundGroup: FundGroup,

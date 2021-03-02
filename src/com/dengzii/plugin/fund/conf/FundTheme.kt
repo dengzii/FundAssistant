@@ -1,5 +1,8 @@
 package com.dengzii.plugin.fund.conf
 
+/**
+ * @author https://github.com/dengzii/
+ */
 enum class FundTheme(
     val rise: String,
     val fall: String

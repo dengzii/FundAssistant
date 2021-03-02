@@ -4,6 +4,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class MainToolWindowFactory : ToolWindowFactory {
 
     private val panels = mutableListOf<ToolWindowPanel>()
@@ -17,8 +20,6 @@ class MainToolWindowFactory : ToolWindowFactory {
     override fun shouldBeAvailable(project: Project) = true
 
     override fun isApplicable(project: Project) = true
-
-    override fun isDoNotActivateOnStart() = false
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         if (panels.isNotEmpty()) {

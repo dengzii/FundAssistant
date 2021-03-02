@@ -6,7 +6,10 @@ import org.junit.Assert;
 
 import java.io.IOException;
 
-public class HttpTest extends TestCase {
+/**
+ * @author https://github.com/dengzii/
+ */
+public class  HttpTest extends TestCase {
 
     public void testGet() {
 

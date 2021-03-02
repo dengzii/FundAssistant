@@ -6,6 +6,9 @@ import com.dengzii.plugin.fund.api.bean.NetValueBean;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author https://github.com/dengzii/
+ */
 public class SinaFundApi implements FundApi {
     @Override
     public List<FundBean> getFundList() {

@@ -22,6 +22,9 @@ import com.intellij.ui.content.ContentFactory
 import java.awt.BorderLayout
 import javax.swing.table.TableRowSorter
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class FundPanel : FundPanelForm(), ToolWindowPanel {
 
     private lateinit var fundData: FundGroup

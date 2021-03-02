@@ -1,5 +1,8 @@
 package com.dengzii.plugin.fund.utils
 
+/**
+ * @author https://github.com/dengzii/
+ */
 object Logger {
 
     @JvmStatic

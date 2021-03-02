@@ -2,7 +2,10 @@ package com.dengzii.plugin.fund.api.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FundBean {
+/**
+ * @author https://github.com/dengzii/
+ */
+public class  FundBean {
 
     @SerializedName(value = "fundcode", alternate = {"fundCode"})
     private String fundCode;

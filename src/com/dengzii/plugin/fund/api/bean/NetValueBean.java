@@ -1,6 +1,9 @@
 package com.dengzii.plugin.fund.api.bean;
 
-public class NetValueBean {
+/**
+ * @author https://github.com/dengzii/
+ */
+public class  NetValueBean {
     private String date;
     private float netValue;
     private float growthRate;

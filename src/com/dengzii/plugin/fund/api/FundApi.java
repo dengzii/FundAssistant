@@ -5,6 +5,9 @@ import com.dengzii.plugin.fund.api.bean.NetValueBean;
 
 import java.util.List;
 
+/**
+ * @author https://github.com/dengzii/
+ */
 public interface FundApi {
     List<FundBean> getFundList();
 

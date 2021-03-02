@@ -3,7 +3,9 @@ package com.dengzii.plugin.fund.utils
 import com.dengzii.plugin.fund.tools.invokeLater
 import java.util.concurrent.Executors
 
-
+/**
+ * @author https://github.com/dengzii/
+ */
 private val executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2)
 
 fun <T> async(block: () -> T): AsyncTask<T> {

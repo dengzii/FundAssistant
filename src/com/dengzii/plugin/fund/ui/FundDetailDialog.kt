@@ -12,6 +12,9 @@ import java.text.DecimalFormat
 import javax.swing.JPanel
 import kotlin.random.Random
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class FundDetailDialog : FundDetailForm() {
 
     private var pre = 200f

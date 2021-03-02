@@ -3,6 +3,9 @@ package com.dengzii.plugin.fund.model
 import com.dengzii.plugin.fund.api.bean.FundBean
 import kotlin.random.Random
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class UserFundModel() {
 
     lateinit var fundBean: FundBean

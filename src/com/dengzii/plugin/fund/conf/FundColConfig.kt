@@ -3,6 +3,9 @@ package com.dengzii.plugin.fund.conf
 import com.dengzii.plugin.fund.model.UserFundModel
 import java.text.DecimalFormat
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class FundColConfig(val columns: List<Col>) {
 
     constructor() : this(

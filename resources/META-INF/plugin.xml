@@ -1,18 +1,54 @@
 <idea-plugin>
     <id>com.dengzii.plugin.fund</id>
     <name>Fund Assistant</name>
-    <version>1.0</version>
+    <version>1.0.2</version>
     <vendor email="dengzii@foxmail.com" url="https://github.com/dengzii">dengzi</vendor>
 
     <description><![CDATA[
-      基金/股票助手.<br>
-      所有该有的功能都有。
-      <em>most HTMLe tags may be used</em>
+<b>A quick and easy way to view fund trends</b>
+<br>
+<b>Feature</b>
+<pre>
+[x] Fund Search: by name, pinyin, pinyin abbr.
+[x] Fund List: sort, basically fields, fall/rise color.
+[x] List Edit: batch add by search, delete.
+[x] Poll Update: poll fund newest net value.
+[x] Ui Theme: three themes, stealth mode.
+[x] Custom Column: choose fields your concerned.
+[ ] Gains: gains, yield, hold share.
+[ ] Detail: time period net value chart, fund status, and etc.
+[ ] Alert: trading day today's net value alert.
+[ ] Fund Group
+[ ] Fund List Export
+-
+[ ] Stock
+</pre>
+<hr>
+<b>功能</b>
+<pre>
+[x] 基金搜索: 名称, 拼音, 拼音简写
+[x] 基金列表: 排序, 基本字段, 涨跌染色标记
+[x] 基金列表编辑: 通过搜索批量添加, 删除
+[x] 基金轮询更新: 定时请求刷新基金数据
+[x] 基金主题: 三种主题可选, 隐蔽模式
+[x] 基金自定义列: 选择你想要关注的字段
+[ ] 基金收益: 收益, 收益率, 持仓
+[ ] 基金详情: 时段净值走势图, 持仓信息, 基金状态
+[ ] 基金预警: 当日净值变化监控警报
+[ ] 基金分组
+[ ] 基金列表导出
+-
+[ ] 股票
+</pre>
+
+<br>
+<a href="https://github.com/dengzii/FundAssistant">GitHub</a>
     ]]></description>
 
     <change-notes><![CDATA[
-      Add change notesq here.<br>
-      <em>most HTMLq tags may be used</em>
+    1.0.2
+    <br>
+    First release.
     ]]>
     </change-notes>
 
@@ -34,7 +70,7 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+
     </actions>
 
 </idea-plugin>

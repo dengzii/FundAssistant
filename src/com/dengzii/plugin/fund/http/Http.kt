@@ -14,6 +14,9 @@ import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class Http {
 
     private lateinit var client: HttpClient

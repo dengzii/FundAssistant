@@ -6,6 +6,9 @@ import com.dengzii.plugin.fund.tools.ui.RGBColor
 import com.intellij.ui.components.JBLabel
 import java.awt.Component
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class ColoredColInfo(
     private val name: String
 ) : ColumnInfo<Any>(name, true) {

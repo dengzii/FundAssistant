@@ -8,6 +8,9 @@ import java.awt.Dimension
 import javax.swing.JCheckBox
 import javax.swing.JComponent
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class PluginConfigurable : SearchableConfigurable {
 
     private lateinit var form: SettingsForm

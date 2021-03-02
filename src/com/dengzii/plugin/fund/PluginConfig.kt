@@ -8,6 +8,9 @@ import com.dengzii.plugin.fund.tools.PersistentConfig
 import com.dengzii.plugin.fund.utils.GsonUtils
 import com.google.gson.reflect.TypeToken
 
+/**
+ * @author https://github.com/dengzii/
+ */
 object PluginConfig : PersistentConfig() {
 
     var fundColConfig by persistentProperty(FundColConfig(), "FundColConfig")

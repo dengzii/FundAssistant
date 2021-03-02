@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TianTianFundApi implements FundApi {
+/**
+ * @author https://github.com/dengzii/
+ */
+public class  TianTianFundApi implements FundApi {
 
     @Override
     public List<FundBean> getFundList() {

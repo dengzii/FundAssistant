@@ -5,7 +5,10 @@ import com.dengzii.plugin.fund.ui.FundDetailDialog;
 
 import javax.swing.*;
 
-public class FundDetailForm extends XDialog {
+/**
+ * @author https://github.com/dengzii/
+ */
+public class  FundDetailForm extends XDialog {
 
     protected JPanel contentPanel;
     protected JTextField textField1;

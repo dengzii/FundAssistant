@@ -4,7 +4,10 @@ import com.dengzii.plugin.fund.tools.ui.XDialog;
 
 import javax.swing.*;
 
-public class EditFundGroupForm extends XDialog {
+/**
+ * @author https://github.com/dengzii/
+ */
+public class  EditFundGroupForm extends XDialog {
 
     protected JPanel contentPanel;
     protected JButton buttonApply;

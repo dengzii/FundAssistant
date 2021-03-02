@@ -7,6 +7,9 @@ import java.awt.Color
 import java.awt.Component
 import java.awt.event.MouseEvent
 
+/**
+ * @author https://github.com/dengzii/
+ */
 class FundCodeColInfo(
         private val name: String = "Fund Code",
         private val onCellClick: (MouseEvent?) -> Unit

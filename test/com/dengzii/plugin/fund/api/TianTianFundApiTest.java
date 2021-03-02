@@ -7,7 +7,10 @@ import junit.framework.TestCase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TianTianFundApiTest extends TestCase {
+/**
+ * @author https://github.com/dengzii/
+ */
+public class  TianTianFundApiTest extends TestCase {
 
     public void testGetNetValueHistory3Month() {
 
