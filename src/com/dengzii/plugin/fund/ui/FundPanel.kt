@@ -39,7 +39,7 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     private val api = TianTianFundApi()
     private var pollTask: AbstractPollTask<List<FundBean>>? = null
     private lateinit var colConfig: List<FundColConfig.Col>
-    private lateinit var project: Project
+    private var project: Project? = null
 
     private fun init() {
         pollDuration = PluginConfig.fundRefreshDuration * 1000L
@@ -83,9 +83,6 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
     }
 
     override fun onCreate(project: Project, toolWindow: ToolWindow) {
-        if (!this::project.isInitialized) {
-            this.project = project
-        }
         val factory = ContentFactory.SERVICE.getInstance()
         val content = factory.createContent(contentPanel, "Fund", false)
         init()

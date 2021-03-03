@@ -67,8 +67,10 @@ class EditFundGroupListDialog(
         textFieldSearch.addKeyListener(object : KeyAdapter() {
             override fun keyReleased(e: KeyEvent?) {
                 super.keyReleased(e)
-                val text = textFieldSearch.text.trim()
+                val text = textFieldSearch.text.trim().toUpperCase()
                 if (text.isBlank()) {
+                    searchResult.clear()
+                    searchListModel.clear()
                     return
                 }
                 listSearch.isVisible = true
@@ -130,6 +132,11 @@ class EditFundGroupListDialog(
                 }
             }
         })
+
+        allFunds.forEach {
+            searchResult.add(it)
+            searchListModel.addElement("${it.fundName}-${it.fundCode}")
+        }
 
         fundGroup.fundList.forEach { (_, u) ->
             selectedListModel.addElement("${u.fundBean.fundName}-${u.fundBean.fundCode}")

@@ -30,7 +30,7 @@ object PluginConfig : PersistentConfig() {
 
     var fundGroup: Map<String, FundGroup>
         get() = load("FundGroups", mapOf(), object : TypeToken<Map<String, FundGroup>>() {}.type)
-        set(value) = save("FungGroups", value)
+        set(value) = save("FundGroups", value)
 
     var allFund: List<FundBean>
         get() = load("AllFunds", listOf(), object : TypeToken<List<FundBean>>() {}.type)
@@ -42,7 +42,12 @@ object PluginConfig : PersistentConfig() {
         if (v.isNullOrBlank()) {
             return default
         }
-        return GsonUtils.fromJson(v, type)
+        return try {
+            GsonUtils.fromJson(v, type)
+        } catch (e: Throwable) {
+            PropertiesComponent.getInstance().unsetValue(key)
+            default
+        }
     }
 
     private fun save(key: String, value: Any) {

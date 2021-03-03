@@ -23,22 +23,22 @@ class Http {
 
     companion object {
 
-        private lateinit var instance: Http
+        private var instance: Http? = null
 
         @JvmStatic
         fun getInstance(): Http {
-            if (!this::instance.isInitialized) {
+            if (instance == null) {
                 instance = Http()
                 val connectionManager = PoolingHttpClientConnectionManager(100, TimeUnit.SECONDS)
                 connectionManager.maxTotal = 200
                 connectionManager.defaultMaxPerRoute = 100
                 val requestConfig =
                     RequestConfig.custom().setConnectionRequestTimeout(2000).setSocketTimeout(2000).build()
-                instance.client =
+                instance!!.client =
                     HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig)
                         .build()
             }
-            return instance
+            return instance!!
         }
     }
 

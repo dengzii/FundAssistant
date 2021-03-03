@@ -48,6 +48,7 @@ object ActionToolBarUtils {
         val presentation = action.templatePresentation
         presentation.icon = icon
         presentation.description = hint
+        presentation.text = hint
         val button = AnActionButtonWrapper(presentation, action)
         button.shortcut = action.shortcutSet
         return button
