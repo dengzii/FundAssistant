@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.dengzii.plugin.fund</id>
     <name>Fund Assistant</name>
-    <version>1.0.3</version>
+    <version>1.0.5</version>
     <vendor email="dengzii@foxmail.com" url="https://github.com/dengzii">dengzi</vendor>
 
     <description><![CDATA[
@@ -46,9 +46,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    1.0.3
+    1.0.5
     <br>
-    First release.
+    fix some compatible problem.
     ]]>
     </change-notes>
 

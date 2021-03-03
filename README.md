@@ -2,6 +2,8 @@
 
 基金小助手, 支持 JetBrains 家所有基于 IDEA 的 IDE. 
 
+<img src="https://raw.githubusercontent.com/dengzii/FundAssistant/master/resources/2.jpg" height="400px">
+
 ## 功能
 
 ---
