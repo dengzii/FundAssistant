@@ -18,9 +18,9 @@ class AsyncTask<T>(private val task: () -> T) : Runnable {
 
     override fun run() {
         val result = task()
-        invokeLater {
+//        invokeLater {
             callback(result)
-        }
+//        }
     }
 
     fun callback(callback: (T) -> Unit) {

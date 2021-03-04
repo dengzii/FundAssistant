@@ -120,6 +120,7 @@ class FundPanel : FundPanelForm(), ToolWindowPanel {
                         // To fund detail.
                     }
                 }
+                FundColConfig.Col.Last30DayNetValue -> NetValueHistoryColInfo(n)
                 FundColConfig.Col.GrowthRateReckon -> ColoredColInfo(n)
                 FundColConfig.Col.TotalYield -> ColoredColInfo(n)
                 FundColConfig.Col.TotalGains -> ColoredColInfo(n)

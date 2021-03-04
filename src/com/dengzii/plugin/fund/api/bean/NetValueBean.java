@@ -9,6 +9,7 @@ public class  NetValueBean {
     private float growthRate;
     private String subscribeStatus;
     private String redemptionStatus;
+    private String dividend;
 
     public String getDate() {
         return date;
@@ -50,6 +51,14 @@ public class  NetValueBean {
         this.redemptionStatus = redemptionStatus;
     }
 
+    public String getDividend() {
+        return dividend;
+    }
+
+    public void setDividend(String dividend) {
+        this.dividend = dividend;
+    }
+
     @Override
     public String toString() {
         return "NetValueBean{" +
@@ -58,6 +67,7 @@ public class  NetValueBean {
                 ", growthRate=" + growthRate +
                 ", subscribeStatus='" + subscribeStatus + '\'' +
                 ", redemptionStatus='" + redemptionStatus + '\'' +
+                ", dividend='" + dividend + '\'' +
                 '}';
     }
 }

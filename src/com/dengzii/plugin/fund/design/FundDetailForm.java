@@ -11,7 +11,8 @@ import javax.swing.*;
 public class  FundDetailForm extends XDialog {
 
     protected JPanel contentPanel;
-    protected JTextField textField1;
+    protected JTextField tfCount;
+    protected JPanel container;
 
     public static void main(String[] args) {
         FundDetailDialog f = new FundDetailDialog();

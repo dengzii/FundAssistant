@@ -15,7 +15,7 @@ public class  TianTianFundApiTest extends TestCase {
     public void testGetNetValueHistory3Month() {
 
         TianTianFundApi api = new TianTianFundApi();
-        List<NetValueBean> netValueBeans = api.getNetValueHistory3Month("160220");
+        List<NetValueBean> netValueBeans = api.getNetValueHistory3Month("000235");
         for (NetValueBean netValueBean : netValueBeans) {
             System.out.println(netValueBean);
         }
@@ -31,7 +31,7 @@ public class  TianTianFundApiTest extends TestCase {
     public void testGetNewestNetValue() {
 
         TianTianFundApi api = new TianTianFundApi();
-        System.out.println(api.getNewestNetValue("160220"));
+        System.out.println(api.getNewestNetValue("000235"));
 
     }
 

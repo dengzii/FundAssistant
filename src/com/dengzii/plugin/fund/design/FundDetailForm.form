@@ -7,10 +7,44 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="c7a7d" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <grid id="58686" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="South"/>
         <properties/>
-      </component>
+        <border type="none"/>
+        <children>
+          <component id="10e1" class="javax.swing.JTextField" binding="tfCount">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <text value="40"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="8bfbf" binding="container" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="91cfb" class="javax.swing.JLabel">
+            <constraints border-constraint="North"/>
+            <properties>
+              <text value="A"/>
+            </properties>
+          </component>
+          <component id="61c42" class="javax.swing.JLabel">
+            <constraints border-constraint="West"/>
+            <properties>
+              <text value="W"/>
+            </properties>
+          </component>
+          <component id="c58d4" class="javax.swing.JLabel">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="E"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

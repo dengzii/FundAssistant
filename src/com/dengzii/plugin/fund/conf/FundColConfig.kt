@@ -16,6 +16,7 @@ class FundColConfig(val columns: List<Col>) {
             Col.NetValueReckon,
             Col.GrowthRateReckon,
             Col.UpdateTime,
+            Col.Last30DayNetValue,
 //        Col.BuyingPrice,
 //        Col.TotalYield,
 //        Col.TotalGains,
@@ -31,6 +32,7 @@ class FundColConfig(val columns: List<Col>) {
         CurrentNetValue("当前净值"),
         NetValueReckon("估算净值"),
         GrowthRateReckon("估算浮动"),
+        Last30DayNetValue("30日净值"),
         BuyingPrice("买入净值"),
         TotalYield("收益率"),
         TotalGains("总收益"),
@@ -65,6 +67,7 @@ class FundColConfig(val columns: List<Col>) {
                 TotalYield -> model.totalYield.formatPercent()
                 TotalGains -> model.totalGains.format()
                 GainsReckon -> model.gainsReckon.format()
+                Last30DayNetValue -> model.fundBean.last30DayNetValue ?: "-"
             }
         }
 

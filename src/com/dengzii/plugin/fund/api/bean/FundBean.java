@@ -2,6 +2,8 @@ package com.dengzii.plugin.fund.api.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * @author https://github.com/dengzii/
  */
@@ -26,6 +28,16 @@ public class  FundBean {
     private float growthRateReckon;
     @SerializedName("gztime")
     private String updateTime;
+
+    private List<NetValueBean> last30DayNetValue;
+
+    public List<NetValueBean> getLast30DayNetValue() {
+        return last30DayNetValue;
+    }
+
+    public void setLast30DayNetValue(List<NetValueBean> last30DayNetValue) {
+        this.last30DayNetValue = last30DayNetValue;
+    }
 
     public FundBean(String fundCode){
         this.fundCode = fundCode;

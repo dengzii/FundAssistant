@@ -86,8 +86,13 @@ public class TianTianFundApi implements FundApi {
                         fundBean.setNetValueReckon(f.getNetValueReckon());
                         fundBean.setGrowthRateReckon(f.getGrowthRateReckon());
                         fundBean.setUpdateTime(f.getUpdateTime());
-                    } catch (Throwable e) {
 
+                        if (fundBean.getLast30DayNetValue() == null) {
+                            List<NetValueBean> netValueHistory = getNetValueHistory(f.getFundCode(), 1, 30);
+                            fundBean.setLast30DayNetValue(netValueHistory);
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                 }
                 return fundBeans;
@@ -109,7 +114,7 @@ public class TianTianFundApi implements FundApi {
 
         List<NetValueBean> n = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            n.addAll(getNetValueHistory(fundCode, 1, 49));
+            n.addAll(getNetValueHistory(fundCode, i + 1, 49));
         }
         return n;
     }
@@ -126,9 +131,9 @@ public class TianTianFundApi implements FundApi {
             response = response.substring(0, response.length() - 21);
             response = response.replaceAll("(<td>)|" +
                     "(</td><td class='tor bold'>)|" +
-                    "(</td><td class='tor bold (grn|red)'>)|" +
+                    "(</td><td class='tor bold (grn|red|bck)'>)|" +
                     "(</td><td>)|" +
-                    "(</td><td class='red unbold'></td>)", ",");
+                    "(</td><td class='red unbold'>)", ",");
             String[] lines = response.split("</tr><tr>");
             for (String line : lines) {
                 String[] sp = line.split(",");
@@ -138,6 +143,7 @@ public class TianTianFundApi implements FundApi {
                 bean.setGrowthRate(parseFloat(sp[4]));
                 bean.setSubscribeStatus(sp[5]);
                 bean.setRedemptionStatus(sp[6]);
+                bean.setDividend(sp[7].replaceAll("</td>", ""));
                 netValueBeans.add(bean);
             }
         } catch (InterruptedException | RequestAbortedException e) {
@@ -149,6 +155,9 @@ public class TianTianFundApi implements FundApi {
     }
 
     private float parseFloat(String s) {
+        if (s.isEmpty()) {
+            return 0;
+        }
         try {
             return Float.parseFloat(s.replace("%", ""));
         } catch (Throwable e) {
