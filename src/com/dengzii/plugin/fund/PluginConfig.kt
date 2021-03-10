@@ -3,6 +3,7 @@ package com.dengzii.plugin.fund
 import com.dengzii.plugin.fund.api.bean.FundBean
 import com.dengzii.plugin.fund.conf.FundColConfig
 import com.dengzii.plugin.fund.conf.FundTheme
+import com.dengzii.plugin.fund.conf.StockColConfig
 import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.tools.PersistentConfig
 import com.dengzii.plugin.fund.utils.GsonUtils
@@ -14,6 +15,10 @@ import java.lang.reflect.Type
  * @author https://github.com/dengzii/
  */
 object PluginConfig : PersistentConfig() {
+
+    var stockColConfig
+        get() = load("StockColConfig", StockColConfig(), object : TypeToken<StockColConfig>() {}.type)
+        set(value) = save("StockColConfig", value)
 
     var fundColConfig
         get() = load("FundColConfig", FundColConfig(), object : TypeToken<FundColConfig>() {}.type)

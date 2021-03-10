@@ -7,12 +7,12 @@
     <properties/>
     <border type="none"/>
     <children>
-      <scrollpane id="da564">
+      <scrollpane id="4fc26">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="a9b4a" class="javax.swing.JTable" binding="tableStock">
+          <component id="c7a17" class="javax.swing.JTable" binding="tableStock">
             <constraints/>
             <properties/>
           </component>

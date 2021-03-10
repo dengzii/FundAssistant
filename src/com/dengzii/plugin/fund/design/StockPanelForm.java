@@ -6,6 +6,6 @@ import javax.swing.*;
  * @author https://github.com/dengzii/
  */
 public class  StockPanelForm {
-    public JPanel contentPanel;
-    public JTable tableStock;
+    protected JPanel contentPanel;
+    protected JTable tableStock;
 }

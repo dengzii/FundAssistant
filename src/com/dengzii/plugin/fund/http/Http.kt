@@ -27,23 +27,30 @@ class Http {
 
         @JvmStatic
         fun getInstance(): Http {
-            if (instance == null) {
-                instance = Http()
-                val connectionManager = PoolingHttpClientConnectionManager(100, TimeUnit.SECONDS)
-                connectionManager.maxTotal = 200
-                connectionManager.defaultMaxPerRoute = 100
-                val requestConfig =
-                    RequestConfig.custom().setConnectionRequestTimeout(2000).setSocketTimeout(2000).build()
-                instance!!.client =
-                    HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig)
-                        .build()
+            synchronized(Http::class.java){
+                if (instance == null) {
+                    instance = Http()
+                    val connectionManager = PoolingHttpClientConnectionManager(100, TimeUnit.SECONDS)
+                    connectionManager.maxTotal = 200
+                    connectionManager.defaultMaxPerRoute = 100
+                    val requestConfig =
+                        RequestConfig.custom().setConnectionRequestTimeout(2000).setSocketTimeout(2000).build()
+                    instance!!.client =
+                        HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig)
+                            .build()
+                }
+                return instance!!
             }
-            return instance!!
         }
     }
 
     @Throws(IOException::class, InterruptedException::class)
     fun get(url: String): String? {
+        return get(url, Charset.forName("utf8"))
+    }
+
+    @Throws(IOException::class, InterruptedException::class)
+    fun get(url: String, charset: Charset): String? {
         val get = HttpGet(url)
 
         val response: HttpResponse = client.execute(get)
@@ -51,11 +58,12 @@ class Http {
         if (response.statusLine.statusCode != 200) {
             return null
         }
-        val br = response.entity.content.bufferedReader(Charset.forName("utf-8"))
+        val br = response.entity.content.bufferedReader(charset)
         val text = br.readText()
         get.releaseConnection()
         return text
     }
+
 
     @Throws(IOException::class)
     fun post(url: String, param: Map<String, String>): String {

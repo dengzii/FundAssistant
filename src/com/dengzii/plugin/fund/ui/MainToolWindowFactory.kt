@@ -22,11 +22,10 @@ class MainToolWindowFactory : ToolWindowFactory {
     override fun isApplicable(project: Project) = true
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        if (panels.isNotEmpty()) {
-            return
+        if (panels.isEmpty()) {
+            panels.add(FundPanel())
+            panels.add(StockPanel())
         }
-        panels.add(FundPanel())
-        panels.add(StockPanel())
 
         toolWindow.activate {
             panels.forEach {
