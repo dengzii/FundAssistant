@@ -22,6 +22,7 @@ class UserStockModel(val stock: StockUpdateBean) {
         stock.unitPriceSaleOne = u.unitPriceSaleOne
         stock.unitPriceSaleTwo = u.unitPriceSaleTwo
         stock.yesterdayClosingPrice = u.yesterdayClosingPrice
+        stock.todayOpeningPrice = u.todayOpeningPrice
         stock.currentPrice = u.currentPrice
     }
 }

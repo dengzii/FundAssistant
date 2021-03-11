@@ -1,7 +1,6 @@
 package com.dengzii.plugin.fund.ui
 
 import com.dengzii.plugin.fund.PluginConfig
-import com.dengzii.plugin.fund.PluginConfigurable
 import com.dengzii.plugin.fund.api.AbstractPollTask
 import com.dengzii.plugin.fund.api.SinaStockApi
 import com.dengzii.plugin.fund.api.bean.StockUpdateBean
@@ -15,13 +14,15 @@ import com.dengzii.plugin.fund.tools.ui.TableAdapter
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionToolbarPosition
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.content.ContentFactory
 import java.awt.BorderLayout
+import java.awt.Component
 import javax.swing.Icon
+import javax.swing.JLabel
+import javax.swing.SwingConstants
 import javax.swing.table.TableRowSorter
 
 /**
@@ -32,13 +33,13 @@ class StockPanel : StockPanelForm(), ToolWindowPanel {
     private val tableData = mutableListOf<MutableList<Any?>>()
     private val columnInfos = mutableListOf<ColumnInfo<Any>>()
     private val tableAdapter = TableAdapter(tableData, columnInfos)
-    private val stocks = mutableMapOf<String, UserStockModel>()
+    private lateinit var stocks: MutableMap<String, UserStockModel>
     private lateinit var project: Project
 
     private lateinit var colConfig: List<StockColConfig.Col>
     private var pollTask: AbstractPollTask<List<StockUpdateBean>>? = null
     private val api = SinaStockApi()
-    private var pollDuration = 1000L
+    private var pollDuration = 20000L
 
     override fun onCreate(project: Project, toolWindow: ToolWindow) {
         val factory = ContentFactory.SERVICE.getInstance()
@@ -50,21 +51,29 @@ class StockPanel : StockPanelForm(), ToolWindowPanel {
 
     private fun init() {
 
-        stocks["sz002157"] = UserStockModel(StockUpdateBean())
+        stocks = PluginConfig.stockList.toMutableMap()
+
         tableStock.rowHeight = 30
         tableAdapter.setup(tableStock)
 
         val toolBar = ToolbarDecorator.createDecorator(tableStock)
             .addExtraActions(
                 action("编辑", AllIcons.Actions.Edit) {
-
+                    EditStockDialog.show(stocks) {
+                        stocks.clear()
+                        stocks.putAll(it)
+                        PluginConfig.stockList = it
+                        updateStockList()
+                        updatePollTask()
+                    }
                 },
                 action("立即刷新", AllIcons.Actions.Refresh) {
                     updatePollTask()
                 },
-                action("设置", AllIcons.General.Settings) {
-                    ShowSettingsUtil.getInstance().editConfigurable(project, PluginConfigurable())
-                })
+//                action("设置", AllIcons.General.Settings) {
+//                    ShowSettingsUtil.getInstance().editConfigurable(project, PluginConfigurable())
+//                }
+            )
             .setToolbarPosition(ActionToolbarPosition.LEFT)
 
         contentPanel.add(toolBar.createPanel(), BorderLayout.CENTER)
@@ -98,7 +107,17 @@ class StockPanel : StockPanelForm(), ToolWindowPanel {
                 FundTheme.Default -> it.getName()
                 else -> it.name
             }
-            val columnInfo = ColumnInfo.new(it.getName(), false)
+            val columnInfo = when (it) {
+                StockColConfig.Col.StockCode,
+                StockColConfig.Col.StockName,
+                StockColConfig.Col.UpdateDate,
+                StockColConfig.Col.UpdateTime -> {
+                    AlignColInfo(it.getName(), SwingConstants.CENTER)
+                }
+                else -> {
+                    AlignColInfo(it.getName(), SwingConstants.RIGHT)
+                }
+            }
             columnInfos.add(columnInfo)
         }
         tableAdapter.fireTableStructureChanged()
@@ -153,4 +172,13 @@ class StockPanel : StockPanelForm(), ToolWindowPanel {
         ActionToolBarUtils.createActionButton(hint, icon, block).apply {
             contextComponent = contentPanel
         }
+
+    private class AlignColInfo(name: String, val alignment: Int) : ColumnInfo<Any>(name, false) {
+        override fun getRendererComponent(item: Any?, row: Int, col: Int): Component {
+            val l = JLabel()
+            l.horizontalAlignment = alignment
+            l.text = item?.toString() ?: "-"
+            return l
+        }
+    }
 }

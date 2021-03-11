@@ -16,6 +16,9 @@ public class SinaStockApi implements StockApi {
         return new AbstractPollTask<List<StockUpdateBean>>() {
             @Override
             List<StockUpdateBean> update() {
+                if (stockList.isEmpty()) {
+                    return Collections.emptyList();
+                }
                 List<StockUpdateBean> updateBeans = new ArrayList<>(stockList.size());
                 StringBuilder b = new StringBuilder("http://hq.sinajs.cn/list=");
                 for (String s : stockList) {
@@ -28,6 +31,9 @@ public class SinaStockApi implements StockApi {
                     }
                     response = response.replaceAll("(var hq_str_s[zh]\\d+=\")|(\";)", "");
                     String[] lines = response.split("\n");
+                    if (lines.length != stockList.size()) {
+                        return Collections.emptyList();
+                    }
                     for (int i = 0; i < lines.length; i++) {
                         String line = lines[i];
                         String[] p = line.split(",");

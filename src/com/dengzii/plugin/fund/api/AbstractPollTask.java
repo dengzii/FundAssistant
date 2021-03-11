@@ -50,15 +50,20 @@ public abstract class AbstractPollTask<T> implements PollTask, SubScribeSource<T
                 result = update();
             } catch (Throwable t) {
                 t.printStackTrace();
+                checkStop();
                 return;
             }
             for (Subscriber<T> subscriber : subscribers) {
                 subscriber.onUpdate(result);
             }
-            if (!isTimeRange()) {
-                stop();
-            }
+            checkStop();
         }, 0, durationMilliSec, TimeUnit.MILLISECONDS);
+    }
+
+    private void checkStop(){
+        if (!isTimeRange()) {
+            stop();
+        }
     }
 
     private boolean isTimeRange() {

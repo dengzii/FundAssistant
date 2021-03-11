@@ -15,9 +15,8 @@ class StockColConfig(val columns: List<Col>) {
             Col.CurrentPrice,
             Col.DayHighPrice,
             Col.DayLowPrice,
-            Col.PriceByOne,
-            Col.DealShares,
-            Col.TotalDealAmount,
+            Col.TodayOpenPrice,
+            Col.YesterdayClosePrice,
             Col.UpdateDate,
             Col.UpdateTime,
         )
@@ -29,6 +28,8 @@ class StockColConfig(val columns: List<Col>) {
         CurrentPrice("当前价格"),
         DayHighPrice("今日最高价"),
         DayLowPrice("今日最低价"),
+        TodayOpenPrice("今日开盘价"),
+        YesterdayClosePrice("昨日收盘价"),
         PriceByOne("买二"),
         DealShares("成交量"),
         TotalDealAmount("成交金额"),
@@ -64,6 +65,8 @@ class StockColConfig(val columns: List<Col>) {
                     PriceByOne -> bean.priceByTwo.format()
                     DealShares -> bean.dealShares.format()
                     TotalDealAmount -> bean.totalTransactionAmount.format()
+                    TodayOpenPrice -> bean.todayOpeningPrice.format()
+                    YesterdayClosePrice -> bean.yesterdayClosingPrice.format()
                     FloatGains -> ""
                     Trending -> ""
                     TodayGainsReckon -> ""
