@@ -1,7 +1,8 @@
-package com.dengzii.plugin.fund.ui
+package com.dengzii.plugin.fund.ui.fund
 
 import com.dengzii.plugin.fund.api.TianTianFundApi
 import com.dengzii.plugin.fund.design.FundDetailForm
+import com.dengzii.plugin.fund.ui.LineChart
 import com.dengzii.plugin.fund.utils.async
 import java.awt.BorderLayout
 import java.awt.event.KeyAdapter

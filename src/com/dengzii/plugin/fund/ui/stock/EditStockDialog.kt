@@ -1,4 +1,4 @@
-package com.dengzii.plugin.fund.ui
+package com.dengzii.plugin.fund.ui.stock
 
 import com.dengzii.plugin.fund.api.bean.StockUpdateBean
 import com.dengzii.plugin.fund.design.EditStockForm
@@ -39,11 +39,12 @@ class EditStockDialog(
         }
         buttonOk.onClick {
             val s = textFieldSearch.text.split(",").filter { it.isNotEmpty() }
+            origin.clear()
             s.forEach {
                 val code = it.trim()
-                if (!origin.containsKey(code)) {
+//                if (!origin.containsKey(code)) {
                     origin[code] = UserStockModel(StockUpdateBean())
-                }
+//                }
             }
             callback.invoke(origin)
             hideAndDispose()

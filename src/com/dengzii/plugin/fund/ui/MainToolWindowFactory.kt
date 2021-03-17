@@ -1,5 +1,7 @@
 package com.dengzii.plugin.fund.ui
 
+import com.dengzii.plugin.fund.ui.fund.FundPanel
+import com.dengzii.plugin.fund.ui.stock.StockPanel
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory

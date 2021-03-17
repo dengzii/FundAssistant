@@ -1,7 +1,8 @@
-package com.dengzii.plugin.fund.ui
+package com.dengzii.plugin.fund.ui.fund
 
 import com.dengzii.plugin.fund.api.bean.NetValueBean
 import com.dengzii.plugin.fund.tools.ui.ColumnInfo
+import com.dengzii.plugin.fund.ui.LineChart
 import java.awt.Component
 import javax.swing.JLabel
 

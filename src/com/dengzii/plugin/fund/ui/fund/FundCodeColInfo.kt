@@ -1,4 +1,4 @@
-package com.dengzii.plugin.fund.ui
+package com.dengzii.plugin.fund.ui.fund
 
 import com.dengzii.plugin.fund.tools.ui.ColumnInfo
 import com.dengzii.plugin.fund.tools.ui.onClick

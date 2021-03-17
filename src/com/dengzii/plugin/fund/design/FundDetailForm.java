@@ -1,7 +1,7 @@
 package com.dengzii.plugin.fund.design;
 
 import com.dengzii.plugin.fund.tools.ui.XDialog;
-import com.dengzii.plugin.fund.ui.FundDetailDialog;
+import com.dengzii.plugin.fund.ui.fund.FundDetailDialog;
 import com.dengzii.plugin.fund.ui.LineChart;
 
 import javax.swing.*;

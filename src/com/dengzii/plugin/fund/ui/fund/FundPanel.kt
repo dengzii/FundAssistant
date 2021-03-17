@@ -1,4 +1,4 @@
-package com.dengzii.plugin.fund.ui
+package com.dengzii.plugin.fund.ui.fund
 
 import com.dengzii.plugin.fund.PluginConfig
 import com.dengzii.plugin.fund.PluginConfigurable
@@ -12,6 +12,8 @@ import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.tools.ui.ActionToolBarUtils
 import com.dengzii.plugin.fund.tools.ui.ColumnInfo
 import com.dengzii.plugin.fund.tools.ui.TableAdapter
+import com.dengzii.plugin.fund.ui.ColoredColInfo
+import com.dengzii.plugin.fund.ui.ToolWindowPanel
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionToolbarPosition
 import com.intellij.openapi.actionSystem.AnActionEvent

@@ -1,4 +1,4 @@
-package com.dengzii.plugin.fund.ui
+package com.dengzii.plugin.fund.ui.fund
 
 import com.dengzii.plugin.fund.PluginConfig
 import com.dengzii.plugin.fund.api.TianTianFundApi

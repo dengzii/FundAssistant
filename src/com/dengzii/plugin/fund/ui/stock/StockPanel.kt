@@ -1,4 +1,4 @@
-package com.dengzii.plugin.fund.ui
+package com.dengzii.plugin.fund.ui.stock
 
 import com.dengzii.plugin.fund.PluginConfig
 import com.dengzii.plugin.fund.api.AbstractPollTask
@@ -11,6 +11,7 @@ import com.dengzii.plugin.fund.model.UserStockModel
 import com.dengzii.plugin.fund.tools.ui.ActionToolBarUtils
 import com.dengzii.plugin.fund.tools.ui.ColumnInfo
 import com.dengzii.plugin.fund.tools.ui.TableAdapter
+import com.dengzii.plugin.fund.ui.ToolWindowPanel
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionToolbarPosition
 import com.intellij.openapi.actionSystem.AnActionEvent

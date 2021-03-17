@@ -57,7 +57,7 @@ object PluginConfig : PersistentConfig() {
         return try {
             GsonUtils.fromJson(v, type)
         } catch (e: Throwable) {
-            PropertiesComponent.getInstance().unsetValue(key)
+            save(key, default!!)
             default
         }
     }
