@@ -21,9 +21,4 @@
 
 ---
 - [x] 股票
-
-## 打赏
-
-你的赞赏是我更新的最大动力
-
-![打赏](https://raw.githubusercontent.com/dengzii/FundAssistant/master/resources/1.jpg)
+- [ ] 股票走势图
