@@ -29,6 +29,16 @@ public class  FundBean {
     @SerializedName("gztime")
     private String updateTime;
 
+    private String tags;
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     private List<NetValueBean> last30DayNetValue;
 
     public List<NetValueBean> getLast30DayNetValue() {

@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.dengzii.plugin.fund</id>
     <name>Fund Assistant</name>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <vendor email="dengzii@foxmail.com" url="https://github.com/dengzii">dengzi</vendor>
 
     <description><![CDATA[
@@ -46,9 +46,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    1.2.1
+    1.2.2
     <br>
-    fix: fund dialog cannot display.
+    update: fund search, press enter to search.
     ]]>
     </change-notes>
 

@@ -30,14 +30,16 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <toolTipText value=""/>
+        </properties>
       </component>
       <component id="60ffa" class="javax.swing.JLabel">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="基金编码 / 名称 / 拼音 / 拼音缩写"/>
+          <text value="基金编码 / 名称 / 拼音 / 拼音缩写 (Enter 键搜索)"/>
         </properties>
       </component>
       <hspacer id="2c56a">

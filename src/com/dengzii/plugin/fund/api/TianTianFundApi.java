@@ -37,7 +37,13 @@ public class TianTianFundApi implements FundApi {
                 fb.setPingYingAbbr(sp[1]);
                 fb.setFundName(sp[2]);
                 fb.setTypeName(sp[3]);
-                fb.setPingYing(sp[4]);
+                try {
+                    fb.setPingYing(sp[4]);
+                } catch (Throwable e) {
+                    fb.setPingYing("-");
+                    e.printStackTrace();
+                }
+                fb.setTags(fb.getFundCode() + "," + fb.getPingYing() + "," + fb.getPingYingAbbr() + "," + fb.getFundName());
                 fundBeans.add(fb);
             } catch (Exception e) {
                 e.printStackTrace();

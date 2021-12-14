@@ -30,6 +30,7 @@ class EditFundGroupListDialog(
     private val searchListModel = DefaultListModel<String>()
     private val searchResult = mutableListOf<FundBean>()
     private val selectedListModel = DefaultListModel<String>()
+
     private var listDither1 = 0L
     private var listDither2 = 0L
 
@@ -47,7 +48,7 @@ class EditFundGroupListDialog(
                     } catch (e: Exception) {
                         e.printStackTrace()
                         invokeLater {
-                            showOkCancelDialog("请求基金接口出错了","${e.message}","知道了")
+                            showOkCancelDialog("请求基金接口出错了", "${e.message}", "知道了")
                         }
                         emptyList<FundBean>()
                     }
@@ -74,11 +75,14 @@ class EditFundGroupListDialog(
         buttonCancel.onClick {
             hideAndDispose()
         }
+
         textFieldSearch.addKeyListener(object : KeyAdapter() {
             override fun keyReleased(e: KeyEvent?) {
-                super.keyReleased(e)
-                val text = textFieldSearch.text.trim().toUpperCase()
-                if (text.isBlank()) {
+                if (e?.keyCode != KeyEvent.VK_ENTER) {
+                    return
+                }
+                val keywords = textFieldSearch.text.trim().uppercase()
+                if (keywords.isBlank()) {
                     searchResult.clear()
                     searchListModel.clear()
                     return
@@ -87,9 +91,7 @@ class EditFundGroupListDialog(
                 searchListModel.clear()
                 searchResult.clear()
                 allFunds.forEach {
-                    if (it.fundName.contains(text) || it.fundCode.contains(text) ||
-                        it.pingYingAbbr.contains(text) || it.pingYing.contains(text)
-                    ) {
+                    if (it.tags.contains(keywords)) {
                         searchResult.add(it)
                         searchListModel.addElement("${it.fundName}-${it.fundCode}")
                     }
