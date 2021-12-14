@@ -27,7 +27,7 @@ class Http {
 
         @JvmStatic
         fun getInstance(): Http {
-            synchronized(Http::class.java){
+            synchronized(Http::class.java) {
                 if (instance == null) {
                     instance = Http()
                     val connectionManager = PoolingHttpClientConnectionManager(100, TimeUnit.SECONDS)
@@ -36,7 +36,8 @@ class Http {
                     val requestConfig =
                         RequestConfig.custom().setConnectionRequestTimeout(2000).setSocketTimeout(2000).build()
                     instance!!.client =
-                        HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig)
+                        HttpClients.custom().setConnectionManager(connectionManager)
+                            .setDefaultRequestConfig(requestConfig)
                             .build()
                 }
                 return instance!!
@@ -56,7 +57,7 @@ class Http {
         val response: HttpResponse = client.execute(get)
         Logger.log("Http.get", "${response.statusLine.statusCode} $url")
         if (response.statusLine.statusCode != 200) {
-            return null
+            throw IOException("Error, HTTP Code ${response.statusLine.statusCode}")
         }
         val br = response.entity.content.bufferedReader(charset)
         val text = br.readText()

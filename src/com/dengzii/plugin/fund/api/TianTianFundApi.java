@@ -20,33 +20,30 @@ import java.util.List;
 public class TianTianFundApi implements FundApi {
 
     @Override
-    public List<FundBean> getFundList() {
-        try {
-            String response = Http.getInstance().get("http://fund.eastmoney.com/js/fundcode_search.js").trim();
-            if (response.isEmpty()) {
-                return Collections.emptyList();
-            }
-            response = response.replaceAll("(var r = \\[)|( )|(];)|(\")", "");
-            response = response.substring(2, response.length() - 1);
-            String[] fund = response.split("],\\[");
-            List<FundBean> fundBeans = new ArrayList<>();
-            for (String f : fund) {
-                String[] sp = f.split(",");
-                FundBean fb = new FundBean();
+    public List<FundBean> getFundList() throws IOException, InterruptedException {
+        String response = Http.getInstance().get("http://fund.eastmoney.com/js/fundcode_search.js").trim();
+        if (response.isEmpty()) {
+            return Collections.emptyList();
+        }
+        response = response.replaceAll("(var r = \\[)|( )|(];)|(\")", "");
+        response = response.substring(2, response.length() - 1);
+        String[] fund = response.split("],\\[");
+        List<FundBean> fundBeans = new ArrayList<>();
+        for (String f : fund) {
+            String[] sp = f.split(",");
+            FundBean fb = new FundBean();
+            try {
                 fb.setFundCode(sp[0]);
                 fb.setPingYingAbbr(sp[1]);
                 fb.setFundName(sp[2]);
                 fb.setTypeName(sp[3]);
                 fb.setPingYing(sp[4]);
                 fundBeans.add(fb);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return fundBeans;
-        } catch (InterruptedException | RequestAbortedException e) {
-            // ignore
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return Collections.emptyList();
+        return fundBeans;
     }
 
     @Override

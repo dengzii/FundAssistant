@@ -6,8 +6,10 @@ import com.dengzii.plugin.fund.api.bean.FundBean
 import com.dengzii.plugin.fund.design.EditFundGroupForm
 import com.dengzii.plugin.fund.model.FundGroup
 import com.dengzii.plugin.fund.model.UserFundModel
+import com.dengzii.plugin.fund.tools.invokeLater
 import com.dengzii.plugin.fund.tools.ui.onClick
 import com.dengzii.plugin.fund.utils.async
+import com.intellij.openapi.ui.showOkCancelDialog
 import java.awt.Dimension
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
@@ -38,9 +40,17 @@ class EditFundGroupListDialog(
     companion object {
         fun show(origin: FundGroup, callback: (callback: FundGroup) -> Unit) {
             val allFunds = PluginConfig.allFund
-            if (allFunds.isNullOrEmpty()) {
+            if (allFunds.isEmpty()) {
                 async {
-                    TianTianFundApi().fundList
+                    try {
+                        TianTianFundApi().fundList
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        invokeLater {
+                            showOkCancelDialog("请求基金接口出错了","${e.message}","知道了")
+                        }
+                        emptyList<FundBean>()
+                    }
                 }.callback {
                     PluginConfig.allFund = it
                     EditFundGroupListDialog(it, origin.clone(), callback).packAndShow()

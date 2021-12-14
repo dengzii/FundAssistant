@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.dengzii.plugin.fund</id>
     <name>Fund Assistant</name>
-    <version>1.1.1</version>
+    <version>1.2.1</version>
     <vendor email="dengzii@foxmail.com" url="https://github.com/dengzii">dengzi</vendor>
 
     <description><![CDATA[
@@ -46,17 +46,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    1.1.1
+    1.2.1
     <br>
-    fix: stock cannot delete.
-    <br>
-    1.1.0
-    <br>
-    new feature: stock.
-    <br>
-    1.0.6
-    <br>
-    30 day net value line chart.
+    fix: fund dialog cannot display.
     ]]>
     </change-notes>
 

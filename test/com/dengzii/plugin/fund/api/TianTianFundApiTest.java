@@ -4,6 +4,7 @@ import com.dengzii.plugin.fund.api.bean.FundBean;
 import com.dengzii.plugin.fund.api.bean.NetValueBean;
 import junit.framework.TestCase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,12 @@ public class  TianTianFundApiTest extends TestCase {
     public void testGetAllFunds() {
 
         TianTianFundApi api = new TianTianFundApi();
-        List<FundBean> allFunds = api.getFundList();
+        List<FundBean> allFunds = null;
+        try {
+            allFunds = api.getFundList();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println(allFunds);
     }
 

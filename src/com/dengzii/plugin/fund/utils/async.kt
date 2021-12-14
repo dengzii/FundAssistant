@@ -1,6 +1,5 @@
 package com.dengzii.plugin.fund.utils
 
-import com.dengzii.plugin.fund.tools.invokeLater
 import java.util.concurrent.Executors
 
 /**
